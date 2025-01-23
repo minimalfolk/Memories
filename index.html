@@ -66,5 +66,40 @@
   </footer>
 
   <script src="script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const bestMemoryList = document.getElementById('best-memory-list');
+    let memories = JSON.parse(localStorage.getItem('memories')) || [];
+
+    function displayBestMemories() {
+      bestMemoryList.innerHTML = ''; // Clear best memory list
+      const bestMemories = memories.filter(memory => memory.favorite);
+
+      if (bestMemories.length === 0) {
+        bestMemoryList.innerHTML = '<p>No favorite memories found.</p>';
+      } else {
+        bestMemories.forEach(memory => {
+          const card = document.createElement('div');
+          card.classList.add('memory-card');
+          card.style.borderLeft = `5px solid ${memory.color}`;
+          
+          const memoryDetails = `
+            <h3>${memory.topic}</h3>
+            <p class="category">${memory.category}</p>
+            <div class="memory-details">
+              <p class="memory-text">${memory.details}</p>
+              <button class="view-more">View More</button>
+            </div>
+            <small>${memory.date}</small>
+          `;
+          card.innerHTML = memoryDetails;
+          bestMemoryList.appendChild(card);
+        });
+      }
+    }
+
+    displayBestMemories();
+  });
+</script>
 </body>
 </html>
