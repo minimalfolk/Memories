@@ -6,18 +6,21 @@
   <title>Memory Jar</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <!-- Add FontAwesome CDN for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- Header -->
   <header>
-  <div class="logo">
-    <i class="fas fa-jar"></i> Memory Jar
-  </div>
-  <a href="my-memories.html" class="my-memories-link">
-    <i class="fas fa-jar"></i> Memories Jar
-  </a>
+    <div class="logo">
+      <i class="fas fa-jar"></i> Memory Jar
+    </div>
+    <!-- Link replaced with Icon -->
+    <a href="my-memories.html" class="my-memories-link">
+      <i class="fas fa-jar"></i>
+    </a>
   </header>
-  
+
   <!-- Add Memory Form -->
   <main>
     <section id="add-memory">
@@ -71,39 +74,39 @@
 
   <script src="script.js"></script>
   <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const memoryList = document.getElementById('memory-list'); // Corrected ID
-    let memories = JSON.parse(localStorage.getItem('memories')) || [];
+    document.addEventListener('DOMContentLoaded', function() {
+      const memoryList = document.getElementById('memory-list'); // Corrected ID
+      let memories = JSON.parse(localStorage.getItem('memories')) || [];
 
-    function displayBestMemories() {
-      memoryList.innerHTML = ''; // Clear the memory list
-      const bestMemories = memories.filter(memory => memory.isFavorite);
+      function displayBestMemories() {
+        memoryList.innerHTML = ''; // Clear the memory list
+        const bestMemories = memories.filter(memory => memory.isFavorite);
 
-      if (bestMemories.length === 0) {
-        memoryList.innerHTML = '<p>No favorite memories found.</p>';
-      } else {
-        bestMemories.forEach(memory => {
-          const card = document.createElement('div');
-          card.classList.add('memory-card');
-          card.style.borderLeft = `5px solid ${memory.color}`;
-          
-          const memoryDetails = `
-            <h3>${memory.topic}</h3>
-            <p class="category">${memory.category}</p>
-            <div class="memory-details">
-              <p class="memory-text">${memory.details}</p>
-              <button class="view-more">View More</button>
-            </div>
-            <small>${memory.date}</small>
-          `;
-          card.innerHTML = memoryDetails;
-          memoryList.appendChild(card);
-        });
+        if (bestMemories.length === 0) {
+          memoryList.innerHTML = '<p>No favorite memories found.</p>';
+        } else {
+          bestMemories.forEach(memory => {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+            card.style.borderLeft = `5px solid ${memory.color}`;
+            
+            const memoryDetails = `
+              <h3>${memory.topic}</h3>
+              <p class="category">${memory.category}</p>
+              <div class="memory-details">
+                <p class="memory-text">${memory.details}</p>
+                <button class="view-more">View More</button>
+              </div>
+              <small>${memory.date}</small>
+            `;
+            card.innerHTML = memoryDetails;
+            memoryList.appendChild(card);
+          });
+        }
       }
-    }
 
-    displayBestMemories(); // Call this on page load to display memories
-  });
+      displayBestMemories(); // Call this on page load to display memories
+    });
   </script>
 </body>
 </html>
