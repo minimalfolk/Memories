@@ -3,168 +3,165 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-    line-height: 1.6;
-  background-color: #f5f5f5;
-    background-color: #333;
+  line-height: 1.6;
+  background-color: #f4f4f4;
   color: #333;
 }
+
 /* Header */
-
-
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 20px;
-  background-color: #00796b;
+  background-color: #333;
   color: #fff;
+  padding: 10px 20px;
 }
 
 header .logo {
-  font-size: 2rem;
+  font-size: 1.5em;
   font-weight: 600;
-  animation: fade-in 1s ease-in;
 }
 
-header .profile-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+header .my-memories-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 400;
 }
 
-main {
-  padding: 20px;
-}
-
-/* Add Memory Section */
+/* Add Memory Form */
 #add-memory {
-  background-color: white;
+  background-color: #fff;
   padding: 20px;
-  margin-bottom: 20px;
+  margin: 20px auto;
+  max-width: 500px;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  animation: slide-in 1s ease-out;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #add-memory h2 {
-  margin-bottom: 10px;
-  font-size: 1.5rem;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
   font-weight: 600;
 }
 
-#memory-form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-#memory-form input,
-#memory-form select,
-#memory-form textarea,
-#memory-form button {
+form input, form select, form textarea, form button {
   width: 100%;
-  margin-bottom: 15px;
   padding: 10px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-#memory-form button {
-  background-color: #00796b;
-  color: white;
-  border: none;
+form button {
+  background-color: #333;
+  color: #fff;
   cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-#memory-form button:hover {
-  background-color: #005f56;
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+form button:hover {
+  background-color: #555;
 }
 
-/* Animations */
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* Best Memories Section */
+#best-memories {
+  padding: 20px;
 }
 
-@keyframes slide-in {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+#best-memories h2 {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
-/* Memory List Section */
-#memory-list h2 {
-  margin-bottom: 15px;
-}
-
-#memories {
+#memory-list {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
 
 .memory-card {
-  background-color: white;
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+  backdrop-filter: blur(10px); /* Boxy-blur effect */
+  border-radius: 10px;
   padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .memory-card h3 {
-  margin: 0 0 10px;
-  font-size: 1.2rem;
+  margin: 0;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
-.memory-card p {
+.memory-card .category {
+  font-size: 0.9em;
+  font-weight: 600;
   margin: 5px 0;
+}
+
+.memory-card .memory-details {
+  margin: 10px 0;
+}
+
+.memory-text {
+  font-size: 0.95em;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  transition: max-height 0.3s ease-in-out;
+}
+
+.view-more {
+  display: none;
+  background: none;
+  border: none;
+  color: #007bff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9em;
+  padding: 0;
+}
+
+.view-more:hover {
+  color: #0056b3;
+}
+
+small {
+  font-size: 0.85em;
   color: #555;
+  margin-top: 10px;
 }
 
 /* Footer */
 footer {
   text-align: center;
-  background-color: #00796b;
-  color: white;
-  padding: 20px 10px;
-  font-size: 0.9rem;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
 }
 
-footer .footer-links {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-footer .footer-links a {
-  margin: 5px 0;
-  color: white;
-  font-weight: bold;
-}
-
-footer .social-media img {
-  width: 30px;
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
   margin: 0 10px;
-  transition: transform 0.3s ease;
 }
 
-footer .social-media img:hover {
-  transform: scale(1.1);
+.footer-links a:hover {
+  text-decoration: underline;
 }
 
-footer .copyright {
-  margin-top: 15px;
+.social-media img {
+  width: 25px;
+  margin: 5px;
 }
