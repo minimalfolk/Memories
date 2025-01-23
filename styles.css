@@ -120,11 +120,17 @@ form button:hover {
   font-size: 0.95em;
   line-height: 1.5;
   white-space: pre-wrap;
+  overflow: hidden;
+  max-height: 6em; /* Approximately 4 lines */
   transition: max-height 0.3s ease-in-out;
 }
 
+.memory-text.expanded {
+  max-height: none;
+}
+
 .view-more {
-  display: none;
+  display: block; /* Make the button visible */
   background: none;
   border: none;
   color: #007bff;
@@ -137,7 +143,6 @@ form button:hover {
 .view-more:hover {
   color: #0056b3;
 }
-
 small {
   font-size: 0.85em;
   color: #555;
