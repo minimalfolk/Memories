@@ -86,12 +86,14 @@ form button:hover {
   justify-content: center;
 }
 
-.memory-card {
-  background-color: #fff;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 200px;
+.memory-details {
+  background-color: #f9f9f9; /* Light background for contrast */
+  border: 1px solid #ddd; /* Border for the box */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px; /* Inner spacing */
+  margin: 10px 0; /* Space between other elements */
+  font-size: 0.95em; /* Slightly smaller text size */
+  white-space: pre-wrap; /* Preserve line breaks and formatting */
 }
 
 .memory-card h3 {
