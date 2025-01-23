@@ -32,20 +32,21 @@ function displayAllMemories(filteredMemories = memories) {
       // Add "Edit" button
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
-      editButton.style.backgroundColor = "orange";
-      editButton.addEventListener("click", () => editMemory(memory));
+      editButton.classList.add("edit-button");
+      editButton.addEventListener("click", () => openEditModal(memory));
       card.appendChild(editButton);
 
       // Add "Delete" button
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "Delete";
-      deleteButton.style.backgroundColor = "red";
-      deleteButton.addEventListener("click", () => deleteMemory(memory));
+      deleteButton.classList.add("delete-button");
+      deleteButton.addEventListener("click", () => confirmDelete(memory));
       card.appendChild(deleteButton);
 
       // Add "Favorite" button
       const favoriteButton = document.createElement("button");
       favoriteButton.textContent = memory.favorite ? "★ Unmark Favorite" : "☆ Mark Favorite";
+      favoriteButton.classList.add("favorite-button");
       favoriteButton.addEventListener("click", () => toggleFavorite(memory));
       card.appendChild(favoriteButton);
 
@@ -54,23 +55,63 @@ function displayAllMemories(filteredMemories = memories) {
   }
 }
 
-// Edit memory
-function editMemory(memory) {
-  const newTopic = prompt("Edit Topic:", memory.topic);
-  const newDetails = prompt("Edit Details:", memory.details);
+// Open edit modal
+function openEditModal(memory) {
+  const editModal = document.createElement("div");
+  editModal.classList.add("modal");
+  editModal.innerHTML = `
+    <div class="modal-content">
+      <h3>Edit Memory</h3>
+      <label for="edit-topic">Topic:</label>
+      <input type="text" id="edit-topic" value="${memory.topic}" />
+      <label for="edit-details">Details:</label>
+      <textarea id="edit-details">${memory.details}</textarea>
+      <button id="save-edit" class="save-button">Save</button>
+      <button id="cancel-edit" class="cancel-button">Cancel</button>
+    </div>
+  `;
+  document.body.appendChild(editModal);
 
-  if (newTopic) memory.topic = newTopic;
-  if (newDetails) memory.details = newDetails;
+  // Save changes
+  document.getElementById("save-edit").addEventListener("click", () => {
+    memory.topic = document.getElementById("edit-topic").value;
+    memory.details = document.getElementById("edit-details").value;
+    saveMemories();
+    displayAllMemories();
+    editModal.remove();
+  });
 
-  saveMemories();
-  displayAllMemories();
+  // Cancel editing
+  document.getElementById("cancel-edit").addEventListener("click", () => {
+    editModal.remove();
+  });
 }
 
-// Delete memory
-function deleteMemory(memory) {
-  memories = memories.filter((m) => m !== memory);
-  saveMemories();
-  displayAllMemories();
+// Confirm delete memory
+function confirmDelete(memory) {
+  const confirmModal = document.createElement("div");
+  confirmModal.classList.add("modal");
+  confirmModal.innerHTML = `
+    <div class="modal-content">
+      <p>Are you sure you want to delete this memory?</p>
+      <button id="confirm-delete" class="delete-button">Yes</button>
+      <button id="cancel-delete" class="cancel-button">No</button>
+    </div>
+  `;
+  document.body.appendChild(confirmModal);
+
+  // Confirm deletion
+  document.getElementById("confirm-delete").addEventListener("click", () => {
+    memories = memories.filter((m) => m !== memory);
+    saveMemories();
+    displayAllMemories();
+    confirmModal.remove();
+  });
+
+  // Cancel deletion
+  document.getElementById("cancel-delete").addEventListener("click", () => {
+    confirmModal.remove();
+  });
 }
 
 // Toggle favorite
