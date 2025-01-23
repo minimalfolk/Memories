@@ -1,57 +1,108 @@
-const form = document.getElementById("memory-form");
+// Initialize memory list from localStorage (if any)
+let memories = JSON.parse(localStorage.getItem("memories")) || [];
+
+// DOM elements
+const memoryForm = document.getElementById("memory-form");
 const memoryList = document.getElementById("memory-list");
 
-form.addEventListener("submit", (e) => {
+// Handle form submission
+memoryForm.addEventListener("submit", function (e) {
   e.preventDefault();
 
-  // Get form values
-  const category = form["memory-category"];
-  const topic = form["memory-topic"].value;
-  const details = form["memory-details"].value;
-  const date = new Date().toLocaleString();
+  const category = document.getElementById("memory-category").value;
+  const topic = document.getElementById("memory-topic").value;
+  const details = document.getElementById("memory-details").value;
 
-  // Create a memory object
-  const memory = {
-    category: category.value,
+  // Create new memory object
+  const newMemory = {
+    category,
     topic,
     details,
-    date,
-    color: category.options[category.selectedIndex].dataset.color,
+    date: new Date().toLocaleString(),
+    color: getCategoryColor(category),
   };
 
-  // Save to local storage
-  saveMemory(memory);
+  // Add new memory to the list
+  memories.push(newMemory);
 
-  // Reset form
-  form.reset();
+  // Save the updated memories to localStorage
+  localStorage.setItem("memories", JSON.stringify(memories));
 
-  // Display the memory
-  displayMemory(memory);
+  // Clear the form
+  memoryForm.reset();
+
+  // Refresh memory list
+  displayMemories();
 });
 
-// Save memory to local storage
-function saveMemory(memory) {
-  let memories = JSON.parse(localStorage.getItem("memories")) || [];
-  memories.push(memory);
-  localStorage.setItem("memories", JSON.stringify(memories));
+// Display memories function
+function displayMemories() {
+  memoryList.innerHTML = ""; // Clear the memory list
+
+  memories.forEach((memory) => {
+    const card = document.createElement("div");
+    card.classList.add("memory-card");
+    card.style.borderLeft = `5px solid ${memory.color}`;
+    
+    const memoryDetails = `
+      <h3>${memory.topic}</h3>
+      <p class="category">${memory.category}</p>
+      <div class="memory-details">
+        <p class="memory-text">${memory.details}</p>
+        <button class="view-more">View More</button>
+      </div>
+      <small>${memory.date}</small>
+    `;
+    
+    card.innerHTML = memoryDetails;
+    memoryList.appendChild(card);
+
+    // Handle "View More" button click
+    const viewMoreButton = card.querySelector('.view-more');
+    const memoryText = card.querySelector('.memory-text');
+
+    // Limit to 4 lines of text (with scroll option)
+    const maxLines = 4;
+    const lineHeight = parseInt(window.getComputedStyle(memoryText).lineHeight);
+    const maxHeight = maxLines * lineHeight;
+    
+    // Set text to maxHeight, allowing scroll if it's too long
+    if (memoryText.scrollHeight > maxHeight) {
+      memoryText.style.maxHeight = `${maxHeight}px`;
+      memoryText.style.overflow = "hidden"; // Hide extra text
+      viewMoreButton.style.display = "inline-block"; // Show "View More" button
+    }
+
+    // Toggle "View More" / "View Less"
+    viewMoreButton.addEventListener('click', () => {
+      if (memoryText.style.maxHeight) {
+        memoryText.style.maxHeight = null;
+        viewMoreButton.textContent = "View Less";
+      } else {
+        memoryText.style.maxHeight = `${maxHeight}px`;
+        viewMoreButton.textContent = "View More";
+      }
+    });
+  });
 }
 
-// Display a memory card
-function displayMemory(memory) {
-  const card = document.createElement("div");
-  card.classList.add("memory-card");
-  card.style.borderLeft = `5px solid ${memory.color}`;
-  card.innerHTML = `
-    <h3>${memory.topic}</h3>
-    <p class="category">${memory.category}</p>
-    <p>${memory.details}</p>
-    <small>${memory.date}</small>
-  `;
-  memoryList.appendChild(card);
+// Get category color for each memory
+function getCategoryColor(category) {
+  switch (category) {
+    case "Personal":
+      return "blue";
+    case "Family":
+      return "skyblue";
+    case "Achievement":
+      return "yellow";
+    case "Relationship":
+      return "lightcoral";
+    default:
+      return "gray";
+  }
 }
 
-// Load memories on page load
-window.addEventListener("DOMContentLoaded", () => {
-  const memories = JSON.parse(localStorage.getItem("memories")) || [];
-  memories.forEach((memory) => displayMemory(memory));
+// Display stored memories on page load
+document.addEventListener("DOMContentLoaded", function () {
+  displayMemories();
 });
