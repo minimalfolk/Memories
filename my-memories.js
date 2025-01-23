@@ -1,5 +1,6 @@
 // Initialize memory list from localStorage
 let memories = JSON.parse(localStorage.getItem("memories")) || [];
+let bestMemories = JSON.parse(localStorage.getItem("bestMemories")) || [];
 
 // DOM Elements
 const memoryList = document.getElementById("memory-list");
@@ -75,13 +76,24 @@ function deleteMemory(memory) {
 // Toggle favorite
 function toggleFavorite(memory) {
   memory.favorite = !memory.favorite;
+  if (memory.favorite) {
+    bestMemories.push(memory);
+  } else {
+    bestMemories = bestMemories.filter((m) => m !== memory);
+  }
   saveMemories();
+  saveBestMemories();
   displayAllMemories();
 }
 
 // Save memories to localStorage
 function saveMemories() {
   localStorage.setItem("memories", JSON.stringify(memories));
+}
+
+// Save best memories to localStorage
+function saveBestMemories() {
+  localStorage.setItem("bestMemories", JSON.stringify(bestMemories));
 }
 
 // Search memories by topic or category
