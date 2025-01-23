@@ -35,28 +35,40 @@ memoryForm.addEventListener("submit", function (e) {
   displayMemories();
 });
 
-// Display memories function
-function displayMemories() {
-  memoryList.innerHTML = ""; // Clear the memory list
+// Display bestmemories function
+document.addEventListener('DOMContentLoaded', function() {
+  const bestMemoryList = document.getElementById('best-memory-list'); // Ensure this id matches the HTML
+  let memories = JSON.parse(localStorage.getItem('memories')) || [];
 
-  memories.forEach((memory) => {
-    const card = document.createElement("div");
-    card.classList.add("memory-card");
-    card.style.borderLeft = `5px solid ${memory.color}`;
-    
-    const memoryDetails = `
-      <h3>${memory.topic}</h3>
-      <p class="category">${memory.category}</p>
-      <div class="memory-details">
-        <p class="memory-text">${memory.details}</p>
-        <button class="view-more">View More</button>
-      </div>
-      <small>${memory.date}</small>
-    `;
-    
-    card.innerHTML = memoryDetails;
-    memoryList.appendChild(card);
+  function displayBestMemories() {
+    bestMemoryList.innerHTML = ''; // Clear best memory list
+    const bestMemories = memories.filter(memory => memory.favorite);
 
+    if (bestMemories.length === 0) {
+      bestMemoryList.innerHTML = '<p>No favorite memories found.</p>';
+    } else {
+      bestMemories.forEach(memory => {
+        const card = document.createElement('div');
+        card.classList.add('memory-card');
+        card.style.borderLeft = `5px solid ${memory.color}`;
+        
+        const memoryDetails = `
+          <h3>${memory.topic}</h3>
+          <p class="category">${memory.category}</p>
+          <div class="memory-details">
+            <p class="memory-text">${memory.details}</p>
+            <button class="view-more">View More</button>
+          </div>
+          <small>${memory.date}</small>
+        `;
+        card.innerHTML = memoryDetails;
+        bestMemoryList.appendChild(card);
+      });
+    }
+  }
+
+  displayBestMemories();
+});
     // Handle "View More" button click
     const viewMoreButton = card.querySelector('.view-more');
     const memoryText = card.querySelector('.memory-text');
