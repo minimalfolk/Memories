@@ -1,103 +1,119 @@
-// Initialize memory list from localStorage
-let memories = JSON.parse(localStorage.getItem("memories")) || [];
+// Memory Data (normally you'd get this from a server or database, but for now, we simulate it)
+let memories = [];
 
-// DOM Elements
-const memoryList = document.getElementById("memory-list");
-const searchMemories = document.getElementById("search-memories");
-
-// Display all memories
-function displayAllMemories(filteredMemories = memories) {
-  memoryList.innerHTML = ""; // Clear memory list
-
-  if (filteredMemories.length === 0) {
-    memoryList.innerHTML = "<p>No memories found.</p>";
-  } else {
-    filteredMemories.forEach((memory) => {
-      const card = document.createElement("div");
-      card.classList.add("memory-card");
-      card.style.borderLeft = `5px solid ${memory.color}`;
-      
-      const memoryDetails = `
-        <h3>${memory.topic}</h3>
-        <p class="category">${memory.category}</p>
-        <div class="memory-details">
-          <p class="memory-text">${memory.details}</p>
-        </div>
-        <small>${memory.date}</small>
-      `;
-      card.innerHTML = memoryDetails;
-
-      // Add "Edit" button
-      const editButton = document.createElement("button");
-      editButton.textContent = "Edit";
-      editButton.classList.add("edit-button");
-      editButton.addEventListener("click", () => editMemory(memory));
-      card.appendChild(editButton);
-
-      // Add "Delete" button
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.classList.add("delete-button");
-      deleteButton.addEventListener("click", () => confirmDelete(memory));
-      card.appendChild(deleteButton);
-
-      // Add "Favorite" button
-      const favoriteButton = document.createElement("button");
-      favoriteButton.textContent = memory.favorite ? "★ Unmark Favorite" : "☆ Mark Favorite";
-      favoriteButton.classList.add("favorite-button");
-      favoriteButton.addEventListener("click", () => toggleFavorite(memory));
-      card.appendChild(favoriteButton);
-
-      memoryList.appendChild(card);
-    });
-  }
+// Load memories from localStorage (if any)
+if(localStorage.getItem('memories')) {
+  memories = JSON.parse(localStorage.getItem('memories'));
+  renderMemories();
 }
 
-// Edit memory
-function editMemory(memory) {
-  const newTopic = prompt("Edit Topic:", memory.topic);
-  const newDetails = prompt("Edit Details:", memory.details);
+// Function to render all memories
+function renderMemories() {
+  const memoryList = document.getElementById('memory-list-container');
+  memoryList.innerHTML = ''; // Clear existing memories
 
-  if (newTopic) memory.topic = newTopic;
-  if (newDetails) memory.details = newDetails;
+  memories.forEach((memory, index) => {
+    const memoryCard = document.createElement('div');
+    memoryCard.classList.add('memory-card');
+    
+    memoryCard.innerHTML = `
+      <h3>${memory.topic}</h3>
+      <p class="category">${memory.category}</p>
+      <p class="memory-text">${memory.details}</p>
+      <button class="favorite-button" onclick="toggleFavorite(${index})">${memory.isFavorite ? 'Unfavorite' : 'Favorite'}</button>
+      <button class="edit-button" onclick="editMemory(${index})">Edit</button>
+      <button class="delete-button" onclick="deleteMemory(${index})">Delete</button>
+      <small>Added on: ${new Date(memory.date).toLocaleDateString()}</small>
+    `;
 
-  saveMemories();
-  displayAllMemories();
+    memoryList.appendChild(memoryCard);
+  });
 }
 
-// Confirm delete memory
-function confirmDelete(memory) {
+// Add a new memory
+function addMemory(topic, category, details) {
+  const newMemory = {
+    topic,
+    category,
+    details,
+    isFavorite: false,
+    date: new Date().toISOString(),
+  };
+
+  memories.push(newMemory);
+  localStorage.setItem('memories', JSON.stringify(memories));
+  renderMemories();
+}
+
+// Toggle favorite status of a memory
+function toggleFavorite(index) {
+  memories[index].isFavorite = !memories[index].isFavorite;
+  localStorage.setItem('memories', JSON.stringify(memories));
+  renderMemories();
+  updateBestMemories();
+}
+
+// Edit a memory
+function editMemory(index) {
+  const newTopic = prompt("Enter new memory topic:", memories[index].topic);
+  const newCategory = prompt("Enter new category:", memories[index].category);
+  const newDetails = prompt("Enter new details:", memories[index].details);
+
+  memories[index] = {
+    ...memories[index],
+    topic: newTopic,
+    category: newCategory,
+    details: newDetails,
+  };
+
+  localStorage.setItem('memories', JSON.stringify(memories));
+  renderMemories();
+}
+
+// Delete a memory
+function deleteMemory(index) {
   if (confirm("Are you sure you want to delete this memory?")) {
-    memories = memories.filter((m) => m !== memory);
-    saveMemories();
-    displayAllMemories();
+    memories.splice(index, 1);
+    localStorage.setItem('memories', JSON.stringify(memories));
+    renderMemories();
+    updateBestMemories();
   }
 }
 
-// Toggle favorite
-function toggleFavorite(memory) {
-  memory.favorite = !memory.favorite;
-  saveMemories();
-  displayAllMemories();
+// Function to update the "Best Memories" list on index.html
+function updateBestMemories() {
+  const bestMemoriesContainer = document.getElementById('best-memories-list');
+  bestMemoriesContainer.innerHTML = ''; // Clear the current list
+
+  // Get favorite memories
+  const favoriteMemories = memories.filter(memory => memory.isFavorite);
+
+  favoriteMemories.forEach(memory => {
+    const memoryItem = document.createElement('div');
+    memoryItem.classList.add('memory-item');
+    memoryItem.innerHTML = `
+      <h4>${memory.topic}</h4>
+      <p class="category">${memory.category}</p>
+      <p class="memory-text">${memory.details}</p>
+    `;
+    bestMemoriesContainer.appendChild(memoryItem);
+  });
 }
 
-// Save memories to localStorage
-function saveMemories() {
-  localStorage.setItem("memories", JSON.stringify(memories));
-}
+// Initial render of best memories
+updateBestMemories();
 
-// Search memories by topic or category
-searchMemories.addEventListener("input", (e) => {
-  const query = e.target.value.toLowerCase();
-  const filteredMemories = memories.filter(
-    (memory) =>
-      memory.topic.toLowerCase().includes(query) ||
-      memory.category.toLowerCase().includes(query)
-  );
-  displayAllMemories(filteredMemories);
-});
+// Add memory form handler (example)
+document.getElementById('memory-form').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-// Display all memories on page load
-document.addEventListener("DOMContentLoaded", () => {
-  displayAllMemories();
+  const topic = document.getElementById('memory-topic').value;
+  const category = document.getElementById('memory-category').value;
+  const details = document.getElementById('memory-details').value;
+
+  addMemory(topic, category, details);
+
+  // Clear the form
+  document.getElementById('memory-topic').value = '';
+  document.getElementById('memory-details').value = '';
 });
