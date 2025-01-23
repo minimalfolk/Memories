@@ -26,9 +26,51 @@ form.addEventListener("submit", (e) => {
   form.reset();
 
   // Display the memory
-  displayMemory(memory);
-});
+  function displayMemory(memory) {
+  const card = document.createElement("div");
+  card.classList.add("memory-card");
+  card.style.borderLeft = `5px solid ${memory.color}`;
+  
+  const memoryDetails = `
+    <h3>${memory.topic}</h3>
+    <p class="category">${memory.category}</p>
+    <div class="memory-details">
+      <p class="memory-text">${memory.details}</p>
+      <button class="view-more">View More</button>
+    </div>
+    <small>${memory.date}</small>
+  `;
+  
+  card.innerHTML = memoryDetails;
+  memoryList.appendChild(card);
+  
+  // Handle "View More" click
+  const viewMoreButton = card.querySelector('.view-more');
+  const memoryText = card.querySelector('.memory-text');
+  
+  // Limit to 4 lines of text
+  const maxLines = 4;
+  const lineHeight = 1.5; // Adjust based on your font size/line height
+  
+  // Get height of the memory text and compare with max line height
+  const lines = Math.ceil(memoryText.scrollHeight / lineHeight);
+  if (lines > maxLines) {
+    memoryText.style.maxHeight = `${maxLines * lineHeight}em`;
+    memoryText.style.overflow = "hidden"; // Hide overflow
+    viewMoreButton.style.display = "inline-block"; // Show the 'View More' button
+  }
 
+  // Toggle "View More" / "View Less"
+  viewMoreButton.addEventListener('click', () => {
+    if (memoryText.style.maxHeight) {
+      memoryText.style.maxHeight = null;
+      viewMoreButton.textContent = "View Less";
+    } else {
+      memoryText.style.maxHeight = `${maxLines * lineHeight}em`;
+      viewMoreButton.textContent = "View More";
+    }
+  });
+  }
 // Save memory to local storage
 function saveMemory(memory) {
   let memories = JSON.parse(localStorage.getItem("memories")) || [];
