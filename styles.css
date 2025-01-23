@@ -68,7 +68,26 @@ form button {
 form button:hover {
   background-color: #555;
 }
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
+@keyframes slide-in {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 /* Best Memories */
 #best-memories {
   padding: 20px;
