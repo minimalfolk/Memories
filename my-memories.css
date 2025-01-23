@@ -1,231 +1,175 @@
-/* General Styling */
+/* General Styles */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
-  background-color: #f4f4f4;
   color: #333;
+  background: #f9f9f9;
 }
 
-/* Header */
 header {
+  background-color: #007BFF;
+  color: white;
+  padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: #fff;
-  padding: 10px 20px;
 }
 
 header .logo {
-  font-size: 1.5em;
+  font-size: 24px;
   font-weight: 600;
 }
 
-header .home-link,
-header .my-memories-link {
-  color: #fff;
+header a {
+  color: white;
   text-decoration: none;
-  font-size: 1em;
-  font-weight: 400;
+  font-size: 18px;
+  font-weight: 500;
 }
 
-/* Add Memory Form */
-#add-memory {
-  background-color: #fff;
+header a:hover {
+  text-decoration: underline;
+}
+
+main {
   padding: 20px;
-  margin: 20px auto;
-  max-width: 500px;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: auto;
 }
 
-#add-memory h2 {
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007BFF;
+}
+
+/* Search Container */
+.search-container {
   text-align: center;
   margin-bottom: 20px;
 }
 
-form label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 600;
-}
-
-form input, form select, form textarea, form button {
-  width: 100%;
+.search-container input {
   padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
+  width: 80%;
+  max-width: 400px;
+  border: 1px solid #ccc;
   border-radius: 5px;
+  font-size: 16px;
 }
 
-form button {
-  background-color: #333;
-  color: #fff;
-  cursor: pointer;
+.search-container input:focus {
+  outline: none;
+  border-color: #007BFF;
 }
 
-form button:hover {
-  background-color: #555;
-}
-
-/* Best Memories Section */
-#best-memories {
-  padding: 20px;
-}
-
-#best-memories h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#memory-list {
+/* Memory List */
+#my-memory-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
   justify-content: center;
 }
 
-/* Styling for memory cards */
 .memory-card {
-  background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Boxy blur effect */
-  border-radius: 10px;
-  padding: 15px;
-  width: 250px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  margin: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: calc(33% - 20px);
+  min-width: 250px;
+  overflow: hidden;
+  border-left: 5px solid #007BFF;
+  transition: transform 0.2s ease-in-out;
+}
+
+.memory-card:hover {
+  transform: translateY(-5px);
 }
 
 .memory-card h3 {
   margin: 0;
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-.memory-card .category {
-  font-size: 0.9em;
-  font-weight: 600;
-  margin: 5px 0;
+  padding: 15px;
+  background: #f5f5f5;
+  font-size: 18px;
+  color: #333;
 }
 
 .memory-card .memory-details {
-  margin: 10px 0;
+  padding: 15px;
 }
 
-.memory-text {
-  font-size: 0.95em;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  overflow: hidden;
-  max-height: 6em; /* Approximately 4 lines */
-  transition: max-height 0.3s ease-in-out;
+.memory-card p {
+  margin: 0 0 10px 0;
+  color: #666;
 }
 
-.memory-text.expanded {
-  max-height: none;
-}
-
-.view-more,
-.edit-memory,
-.remove-memory,
-.mark-best {
+.memory-card small {
   display: block;
-  background: none;
-  border: none;
-  color: #007bff;
-  text-decoration: underline;
-  cursor: pointer;
-  font-size: 0.9em;
-  padding: 0;
-  margin-top: 5px;
-}
-
-.view-more:hover,
-.edit-memory:hover,
-.remove-memory:hover,
-.mark-best:hover {
-  color: #0056b3;
-}
-
-small {
-  font-size: 0.85em;
-  color: #555;
   margin-top: 10px;
+  font-size: 12px;
+  color: #999;
 }
 
-#memory-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-#best-memories h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-/* Additional styles for My Memories page */
-.memory-card .favorite-memory {
+.memory-card button {
   background: none;
   border: none;
-  font-size: 1.5em;
-  color: gold;
+  color: #007BFF;
   cursor: pointer;
+  font-size: 14px;
+  margin-right: 10px;
 }
 
-.memory-card .favorite-memory:hover {
-  color: darkorange;
-}
-
-/* Responsive design for memory section */
-@media (max-width: 768px) {
-  .memory-card {
-    width: 100%;
-    margin: 10px 0;
-  }
-}
-
-footer {
-  text-align: center;
-  margin-top: 20px;
-}
-
-footer a {
-  margin: 0 10px;
-  color: #007bff;
-  text-decoration: none;
-}
-
-footer a:hover {
+.memory-card button:hover {
   text-decoration: underline;
 }
 
-/* Footer */
+/* Footer Styles */
 footer {
+  background: #333;
+  color: white;
+  padding: 20px;
   text-align: center;
   margin-top: 20px;
-  padding: 10px;
-  background-color: #333;
-  color: #fff;
 }
 
 .footer-links a {
-  color: #fff;
+  color: #ccc;
   text-decoration: none;
+  font-size: 14px;
   margin: 0 10px;
 }
 
 .footer-links a:hover {
-  text-decoration: underline;
+  color: white;
 }
 
-.social-media img {
-  width: 25px;
-  margin: 5px;
+.social-media a img {
+  width: 24px;
+  height: 24px;
+  margin: 0 5px;
+  opacity: 0.8;
+}
+
+.social-media a img:hover {
+  opacity: 1;
+}
+
+footer .copyright {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .memory-card {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 480px) {
+  .memory-card {
+    width: 100%;
+  }
 }
