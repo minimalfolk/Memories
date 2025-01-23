@@ -75,13 +75,8 @@ function displayMemories() {
 
     // Toggle "View More" / "View Less"
     viewMoreButton.addEventListener('click', () => {
-      if (memoryText.style.maxHeight) {
-        memoryText.style.maxHeight = null;
-        viewMoreButton.textContent = "View Less";
-      } else {
-        memoryText.style.maxHeight = `${maxHeight}px`;
-        viewMoreButton.textContent = "View More";
-      }
+      memoryText.classList.toggle('expanded');
+      viewMoreButton.textContent = memoryText.classList.contains('expanded') ? 'View Less' : 'View More';
     });
   });
 }
