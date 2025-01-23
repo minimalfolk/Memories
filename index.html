@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Jar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header>
+    <div class="logo">Memory Jar</div>
+    <a href="my-memories.html" class="my-memories-link">My Memories</a>
+  </header>
+
+  <!-- Add Memory Form -->
+  <main>
+    <section id="add-memory">
+      <h2>Add Your Memory</h2>
+      <form id="memory-form">
+        <label for="memory-category">Category</label>
+        <select id="memory-category">
+          <option value="Personal" data-color="blue">Personal</option>
+          <option value="Family" data-color="skyblue">Family</option>
+          <option value="Achievement" data-color="yellow">Achievement</option>
+          <option value="Relationship" data-color="lightcoral">Relationship</option>
+        </select>
+        
+        <label for="memory-topic">Topic</label>
+        <input type="text" id="memory-topic" placeholder="Enter memory topic" required>
+        
+        <label for="memory-details">Details</label>
+        <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
+        
+        <button type="submit">Save Memory</button>
+      </form>
+    </section>
+
+    <!-- Best Memories -->
+    <section id="best-memories">
+      <h2>Best Memories</h2>
+      <div id="memory-list">
+        <!-- Memories will be dynamically added here -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms and Conditions</a>
+    </div>
+    <div class="social-media">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+    </div>
+    <div class="copyright">
+      ©2025 Memory Jar.
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
