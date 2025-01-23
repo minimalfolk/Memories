@@ -30,6 +30,14 @@ header .my-memories-link {
   font-weight: 400;
 }
 
+#search-memories {
+  width: 80%;
+  padding: 10px;
+  margin: 10px auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
 /* Add Memory Form */
 #add-memory {
   background-color: #fff;
