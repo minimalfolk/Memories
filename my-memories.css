@@ -1,9 +1,148 @@
-button.favorite-btn {
-  background-color: gold;
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Header Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+header .logo {
+  font-size: 1.5em;
+  font-weight: 600;
+}
+
+header .my-memories-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: 400;
+  transition: color 0.3s ease-in-out;
+}
+
+header .my-memories-link:hover {
+  color: #ffcc00;
+}
+
+/* Search Bar */
+#search-memories {
+  display: block;
+  margin: 20px auto;
+  max-width: 600px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1em;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#search-memories:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Memory List Container */
+#memory-list-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Memory Cards */
+.memory-card {
+  background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Glassmorphism effect */
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 300px;
+  margin: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.memory-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.memory-card h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.memory-card .category {
+  font-size: 0.9em;
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.memory-card .memory-details {
+  margin-bottom: 15px;
+}
+
+.memory-card .memory-text {
+  font-size: 0.95em;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow: hidden;
+  max-height: 6em; /* Approximately 4 lines */
+  transition: max-height 0.3s ease-in-out;
+}
+
+.memory-card .memory-text.expanded {
+  max-height: none;
+}
+
+.memory-card small {
+  font-size: 0.85em;
+  color: #888;
+  margin-top: 10px;
+  display: block;
+}
+
+/* Buttons in Memory Card */
+button {
+  padding: 8px 12px;
+  font-size: 0.9em;
   border: none;
-  padding: 5px 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Specific Buttons */
+button.favorite-btn {
+  background-color: gold;
+  color: #fff;
   margin-top: 10px;
 }
 
@@ -11,10 +150,64 @@ button.favorite-btn:hover {
   background-color: darkorange;
 }
 
-button {
-  margin: 5px;
-  padding: 5px 10px;
+button.edit-btn {
+  background-color: #007bff;
+  color: #fff;
+  margin-right: 5px;
+}
+
+button.edit-btn:hover {
+  background-color: #0056b3;
+}
+
+button.delete-btn {
+  background-color: #ff4d4d;
+  color: #fff;
+}
+
+button.delete-btn:hover {
+  background-color: #cc0000;
+}
+
+button.view-more {
+  background: none;
   border: none;
-  border-radius: 5px;
+  color: #007bff;
+  text-decoration: underline;
   cursor: pointer;
+  padding: 0;
+  font-size: 0.9em;
+}
+
+button.view-more:hover {
+  color: #0056b3;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.social-media img {
+  width: 25px;
+  margin: 5px;
+  transition: transform 0.3s ease;
+}
+
+.social-media img:hover {
+  transform: scale(1.2);
 }
