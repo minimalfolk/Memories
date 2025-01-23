@@ -13,16 +13,17 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0047ab; /* Deep blue header */
-  color: #fff;
-  padding: 15px 20px;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Header shadow */
+  background-color: #0047ab; /* Deep blue background */
+  color: white;
+  padding: 20px 30px; /* Increased padding for a larger header */
+  font-size: 1.2em; /* Slightly larger text size */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow for depth */
 }
 
 header .logo {
-  font-size: 1.8em;
+  font-size: 2em; /* Larger logo text */
   font-weight: 700;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Subtle text shadow */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Subtle text shadow */
 }
 
 header .my-memories-link {
