@@ -17,10 +17,15 @@ header {
   color: #fff;
   padding: 20px 30px;
 }
+/* Header - Icon Style */
+header .logo i {
+  font-size: 2em; /* Adjust size */
+  margin-right: 10px; /* Space between icon and text */
+}
 
-header .logo {
-  font-size: 2em;
-  font-weight: 700;
+header .my-memories-link i {
+  font-size: 1.5em; /* Smaller icon size */
+  margin-right: 8px; /* Space between icon and text */
 }
 
 header .my-memories-link {
