@@ -44,7 +44,7 @@ function displayMemory(memory) {
   card.innerHTML = `
     <h3>${memory.topic}</h3>
     <p class="category">${memory.category}</p>
-    <p>${memory.details}</p>
+    <div class="memory-details">${memory.details}</div>
     <small>${memory.date}</small>
   `;
   memoryList.appendChild(card);
