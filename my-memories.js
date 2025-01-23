@@ -32,6 +32,7 @@ function renderMemories() {
 
 // Add a new memory
 function addMemory(topic, category, details) {
+function addMemory(topic, category, details) {
   const newMemory = {
     topic,
     category,
