@@ -41,7 +41,7 @@
     <section id="best-memories">
       <h2>Best Memories</h2>
       <div id="memory-list">
-        <!-- Memories will be dynamically added here -->
+        <!-- Favorite memories will be dynamically added here -->
       </div>
     </section>
   </main>
@@ -68,15 +68,15 @@
   <script src="script.js"></script>
   <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const bestMemoryList = document.getElementById('best-memory-list');
+    const memoryList = document.getElementById('memory-list'); // Corrected ID
     let memories = JSON.parse(localStorage.getItem('memories')) || [];
 
     function displayBestMemories() {
-      bestMemoryList.innerHTML = ''; // Clear best memory list
-      const bestMemories = memories.filter(memory => memory.favorite);
+      memoryList.innerHTML = ''; // Clear the memory list
+      const bestMemories = memories.filter(memory => memory.isFavorite);
 
       if (bestMemories.length === 0) {
-        bestMemoryList.innerHTML = '<p>No favorite memories found.</p>';
+        memoryList.innerHTML = '<p>No favorite memories found.</p>';
       } else {
         bestMemories.forEach(memory => {
           const card = document.createElement('div');
@@ -93,13 +93,13 @@
             <small>${memory.date}</small>
           `;
           card.innerHTML = memoryDetails;
-          bestMemoryList.appendChild(card);
+          memoryList.appendChild(card);
         });
       }
     }
 
-    displayBestMemories();
+    displayBestMemories(); // Call this on page load to display memories
   });
-</script>
+  </script>
 </body>
 </html>
