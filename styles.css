@@ -86,13 +86,15 @@ form button:hover {
   justify-content: center;
 }
 
+/* Styling for memory cards */
 .memory-card {
-  background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
-  backdrop-filter: blur(10px); /* Boxy-blur effect */
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Boxy blur effect */
   border-radius: 10px;
   padding: 15px;
   width: 250px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -140,6 +142,33 @@ small {
   font-size: 0.85em;
   color: #555;
   margin-top: 10px;
+}
+
+#memory-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+#best-memories h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+footer a {
+  margin: 0 10px;
+  color: #007bff;
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 /* Footer */
