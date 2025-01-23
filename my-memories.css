@@ -1,17 +1,6 @@
-/* General Styling */
-body {
-  font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  color: #333;
-}
-
-/* Header Styling */
+/* Header */
 header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background-color: #333;
   color: #fff;
@@ -19,28 +8,22 @@ header {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-header .logo {
+header .back-icon img {
+  width: 30px;
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+header h1 {
   font-size: 1.5em;
-  font-weight: 600;
-}
-
-header .my-memories-link {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1em;
-  font-weight: 400;
-  transition: color 0.3s ease-in-out;
-}
-
-header .my-memories-link:hover {
-  color: #ffcc00;
+  margin: 0;
 }
 
 /* Search Bar */
 #search-memories {
   display: block;
   margin: 20px auto;
-  max-width: 600px;
+  max-width: 95%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -49,165 +32,42 @@ header .my-memories-link:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-#search-memories:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-/* Memory List Container */
-#memory-list-container {
-  padding: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-/* Memory Cards */
-.memory-card {
-  background: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
-  backdrop-filter: blur(10px); /* Glassmorphism effect */
-  border-radius: 10px;
-  padding: 20px;
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
-  max-width: 300px;
-  margin: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
-.memory-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.memory-card h3 {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #333;
-}
-
-.memory-card .category {
-  font-size: 0.9em;
-  font-weight: 600;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-.memory-card .memory-details {
-  margin-bottom: 15px;
-}
-
-.memory-card .memory-text {
-  font-size: 0.95em;
-  line-height: 1.5;
-  white-space: pre-wrap;
-  overflow: hidden;
-  max-height: 6em; /* Approximately 4 lines */
-  transition: max-height 0.3s ease-in-out;
-}
-
-.memory-card .memory-text.expanded {
-  max-height: none;
-}
-
-.memory-card small {
-  font-size: 0.85em;
-  color: #888;
-  margin-top: 10px;
-  display: block;
-}
-
-/* Buttons in Memory Card */
-button {
-  padding: 8px 12px;
-  font-size: 0.9em;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button:hover {
-  transform: translateY(-2px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-/* Specific Buttons */
-button.favorite-btn {
-  background-color: gold;
-  color: #fff;
-  margin-top: 10px;
-}
-
-button.favorite-btn:hover {
-  background-color: darkorange;
-}
-
-button.edit-btn {
-  background-color: #007bff;
-  color: #fff;
-  margin-right: 5px;
-}
-
-button.edit-btn:hover {
-  background-color: #0056b3;
-}
-
-button.delete-btn {
-  background-color: #ff4d4d;
-  color: #fff;
-}
-
-button.delete-btn:hover {
-  background-color: #cc0000;
-}
-
-button.view-more {
-  background: none;
-  border: none;
-  color: #007bff;
-  text-decoration: underline;
-  cursor: pointer;
-  padding: 0;
-  font-size: 0.9em;
-}
-
-button.view-more:hover {
-  color: #0056b3;
-}
-
-/* Footer */
-footer {
+.modal .modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
   text-align: center;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #333;
-  color: #fff;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.footer-links a {
-  color: #fff;
-  text-decoration: none;
-  margin: 0 10px;
+.modal .modal-content p {
+  margin-bottom: 20px;
 }
 
-.footer-links a:hover {
-  text-decoration: underline;
+.modal .modal-content button {
+  margin: 10px;
 }
 
-.social-media img {
-  width: 25px;
-  margin: 5px;
-  transition: transform 0.3s ease;
-}
-
-.social-media img:hover {
-  transform: scale(1.2);
+.modal.show {
+  opacity: 1;
+  pointer-events: auto;
 }
