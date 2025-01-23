@@ -170,6 +170,27 @@ small {
   margin-bottom: 20px;
 }
 
+/* Additional styles for My Memories page */
+.memory-card .favorite-memory {
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  color: gold;
+  cursor: pointer;
+}
+
+.memory-card .favorite-memory:hover {
+  color: darkorange;
+}
+
+/* Responsive design for memory section */
+@media (max-width: 768px) {
+  .memory-card {
+    width: 100%;
+    margin: 10px 0;
+  }
+}
+
 footer {
   text-align: center;
   margin-top: 20px;
