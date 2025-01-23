@@ -1,222 +1,208 @@
-/* General Styling */
+/* General Styles */
 body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
-  background-color: #f4f4f4;
-  color: #333;
+  box-sizing: border-box;
+  background-color: #f8f9fa;
 }
 
-/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: #fff;
   padding: 20px 30px;
-}
-/* Header - Icon Style */
-header .logo i {
-  font-size: 2em; /* Adjust size */
-  margin-right: 10px; /* Space between icon and text */
+  background-color: #343a40;
+  color: white;
 }
 
-header .my-memories-link i {
-  font-size: 1.5em; /* Smaller icon size */
-  margin-right: 8px; /* Space between icon and text */
+header .logo {
+  font-size: 1.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+header .logo i {
+  margin-right: 10px;
 }
 
 header .my-memories-link {
-  color: #fff;
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  font-size: 1.1em;
-  font-weight: 600;
-  transition: color 0.3s ease;
+}
+
+header .my-memories-link i {
+  margin-right: 8px;
 }
 
 header .my-memories-link:hover {
-  color: #007bff;
+  color: #ffcc00;
 }
 
 /* Add Memory Form */
+main {
+  padding: 20px;
+}
+
 #add-memory {
-  background-color: #fff;
-  padding: 25px;
-  margin: 20px auto;
-  max-width: 600px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-form label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: #333;
+#add-memory h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
 }
 
-form input, form select, form textarea, form button {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 18px;
+#memory-form {
+  display: flex;
+  flex-direction: column;
+}
+
+#memory-form label {
+  margin-bottom: 5px;
+  font-size: 1rem;
+}
+
+#memory-form select,
+#memory-form input,
+#memory-form textarea {
+  padding: 10px;
+  margin-bottom: 15px;
+  font-size: 1rem;
   border: 1px solid #ddd;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: 5px;
 }
 
-form input:focus, form select:focus, form textarea:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-form button {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: 600;
+#memory-form button {
+  padding: 10px 15px;
+  font-size: 1.2rem;
+  background-color: #343a40;
+  color: white;
+  border: none;
+  border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-form button:hover {
-  background-color: #0056b3;
-  transform: translateY(-4px);
-}
-
-form button:active {
-  transform: translateY(2px);
-}
-
-form button:focus {
-  outline: 3px solid #0056b3; /* Focus state for better accessibility */
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 15px;
-  }
-
-  .logo {
-    font-size: 1.6em;
-  }
-
-  .memory-card {
-    width: 100%;
-    padding: 15px;
-  }
-
-  form input, form select, form textarea, form button {
-    padding: 12px;
-  }
-
-  .social-media img {
-    width: 24px;
-    height: 24px;
-  }
-
-  footer {
-    font-size: 0.9em;
-  }
+#memory-form button:hover {
+  background-color: #ffcc00;
 }
 
 /* Best Memories Section */
 #best-memories {
-  padding: 30px;
+  margin-top: 30px;
 }
 
-#memory-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+#best-memories h2 {
+  font-size: 1.8rem;
+  margin-bottom: 15px;
 }
 
 .memory-card {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  padding: 25px;
-  width: 300px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.memory-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .memory-card h3 {
-  font-size: 1.4em;
-  color: #333;
-}
-
-.memory-card .view-more {
-  background: none;
-  border: none;
-  color: #007bff;
-  text-decoration: underline;
-  cursor: pointer;
-  transition: color 0.3s ease;
-}
-
-.memory-card .view-more:hover {
-  color: #0056b3;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  background-color: #333;
-  color: white;
-  padding: 20px 0;
-}
-
-.footer-links {
+  font-size: 1.6rem;
   margin-bottom: 10px;
 }
 
-.footer-links a {
+.memory-card .category {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.memory-card .memory-details {
+  margin-top: 10px;
+}
+
+.memory-card .memory-text {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.memory-card .view-more {
+  padding: 8px 12px;
+  font-size: 1rem;
+  background-color: #343a40;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.memory-card .view-more:hover {
+  background-color: #ffcc00;
+}
+
+.memory-card small {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #343a40;
+  color: white;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer .footer-links {
+  margin-bottom: 15px;
+}
+
+footer .footer-links a {
   color: white;
   text-decoration: none;
-  font-size: 1em;
   margin: 0 15px;
-  transition: color 0.3s ease;
 }
 
-.footer-links a:hover {
-  color: #007bff;
+footer .footer-links a:hover {
+  color: #ffcc00;
 }
 
-/* Social Media Icons */
-.social-media {
-  display: flex;
-  justify-content: center;
+footer .social-media a {
+  margin: 0 10px;
+}
+
+footer .social-media img {
+  width: 25px;
+  height: 25px;
+}
+
+footer .copyright {
   margin-top: 15px;
+  font-size: 0.9rem;
 }
 
-.social-media a {
-  margin: 0 15px;
-}
+/* Responsiveness */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
 
-.social-media img {
-  width: 15px;
-  height: 15px;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
+  .logo {
+    margin-bottom: 10px;
+  }
 
-.social-media img:hover {
-  transform: scale(1.15);
-  filter: brightness(0.8);
-}
-
-.social-media img:focus {
-  outline: 3px solid #007bff; /* Focus state for icons */
+  .my-memories-link {
+    margin-top: 10px;
+  }
 }
