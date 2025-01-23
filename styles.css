@@ -3,71 +3,87 @@ body {
   font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-  line-height: 1.6;
-  background-color: #f4f4f4;
+    line-height: 1.6;
+  background-color: #f5f5f5;
+    background-color: #333;
   color: #333;
 }
-
 /* Header */
+
+
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
-  color: #fff;
   padding: 10px 20px;
+  background-color: #00796b;
+  color: #fff;
 }
 
 header .logo {
-  font-size: 1.5em;
+  font-size: 2rem;
   font-weight: 600;
+  animation: fade-in 1s ease-in;
 }
 
-header .my-memories-link {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1em;
-  font-weight: 400;
+header .profile-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 
-/* Add Memory Form */
-#add-memory {
-  background-color: #fff;
+main {
   padding: 20px;
-  margin: 20px auto;
-  max-width: 500px;
+}
+
+/* Add Memory Section */
+#add-memory {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  animation: slide-in 1s ease-out;
 }
 
 #add-memory h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-form label {
-  display: block;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
   font-weight: 600;
 }
 
-form input, form select, form textarea, form button {
+#memory-form label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+#memory-form input,
+#memory-form select,
+#memory-form textarea,
+#memory-form button {
   width: 100%;
-  padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-form button {
-  background-color: #333;
-  color: #fff;
+#memory-form button {
+  background-color: #00796b;
+  color: white;
+  border: none;
   cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-form button:hover {
-  background-color: #555;
+#memory-form button:hover {
+  background-color: #005f56;
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 /* Animations */
 @keyframes fade-in {
   from {
@@ -88,66 +104,67 @@ form button:hover {
     opacity: 1;
   }
 }
-/* Best Memories */
-#best-memories {
-  padding: 20px;
+
+/* Memory List Section */
+#memory-list h2 {
+  margin-bottom: 15px;
 }
 
-#best-memories h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-#memory-list {
+#memories {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.memory-details {
-  background-color: #f9f9f9; /* Light background for contrast */
-  border: 1px solid #ddd; /* Border for the box */
-  border-radius: 5px; /* Rounded corners */
-  padding: 20px; /* Inner spacing */
-  margin: 10px 0; /* Space between other elements */
-  font-size: 0.95em; /* Slightly smaller text size */
-  white-space: pre-wrap; /* Preserve line breaks and formatting */
+.memory-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .memory-card h3 {
-  margin: 0;
+  margin: 0 0 10px;
+  font-size: 1.2rem;
 }
 
 .memory-card p {
   margin: 5px 0;
-}
-
-.memory-card .category {
-  font-size: 0.9em;
-  font-weight: 300;
+  color: #555;
 }
 
 /* Footer */
 footer {
   text-align: center;
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #333;
-  color: #fff;
+  background-color: #00796b;
+  color: white;
+  padding: 20px 10px;
+  font-size: 0.9rem;
 }
 
-.footer-links a {
-  color: #fff;
-  text-decoration: none;
+footer .footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+footer .footer-links a {
+  margin: 5px 0;
+  color: white;
+  font-weight: bold;
+}
+
+footer .social-media img {
+  width: 30px;
   margin: 0 10px;
+  transition: transform 0.3s ease;
 }
 
-.footer-links a:hover {
-  text-decoration: underline;
+footer .social-media img:hover {
+  transform: scale(1.1);
 }
 
-.social-media img {
-  width: 25px;
-  margin: 5px;
+footer .copyright {
+  margin-top: 15px;
 }
