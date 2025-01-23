@@ -144,6 +144,18 @@ footer a {
   margin: 0 10px;
 }
 
+/* Social Media Icons - Footer */
+footer .small-icons a img {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  transition: transform 0.3s ease;
+}
+
+footer .small-icons a img:hover {
+  transform: scale(1.2);
+}
+
 footer a:hover {
   text-decoration: underline;
 }
