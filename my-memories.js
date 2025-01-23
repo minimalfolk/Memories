@@ -1,6 +1,5 @@
 // Initialize memory list from localStorage
 let memories = JSON.parse(localStorage.getItem("memories")) || [];
-let bestMemories = JSON.parse(localStorage.getItem("bestMemories")) || [];
 
 // DOM Elements
 const memoryList = document.getElementById("memory-list");
@@ -23,7 +22,6 @@ function displayAllMemories(filteredMemories = memories) {
         <p class="category">${memory.category}</p>
         <div class="memory-details">
           <p class="memory-text">${memory.details}</p>
-          <button class="view-more">View More</button>
         </div>
         <small>${memory.date}</small>
       `;
@@ -33,7 +31,7 @@ function displayAllMemories(filteredMemories = memories) {
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
       editButton.classList.add("edit-button");
-      editButton.addEventListener("click", () => openEditModal(memory));
+      editButton.addEventListener("click", () => editMemory(memory));
       card.appendChild(editButton);
 
       // Add "Delete" button
@@ -55,86 +53,37 @@ function displayAllMemories(filteredMemories = memories) {
   }
 }
 
-// Open edit modal
-function openEditModal(memory) {
-  const editModal = document.createElement("div");
-  editModal.classList.add("modal");
-  editModal.innerHTML = `
-    <div class="modal-content">
-      <h3>Edit Memory</h3>
-      <label for="edit-topic">Topic:</label>
-      <input type="text" id="edit-topic" value="${memory.topic}" />
-      <label for="edit-details">Details:</label>
-      <textarea id="edit-details">${memory.details}</textarea>
-      <button id="save-edit" class="save-button">Save</button>
-      <button id="cancel-edit" class="cancel-button">Cancel</button>
-    </div>
-  `;
-  document.body.appendChild(editModal);
+// Edit memory
+function editMemory(memory) {
+  const newTopic = prompt("Edit Topic:", memory.topic);
+  const newDetails = prompt("Edit Details:", memory.details);
 
-  // Save changes
-  document.getElementById("save-edit").addEventListener("click", () => {
-    memory.topic = document.getElementById("edit-topic").value;
-    memory.details = document.getElementById("edit-details").value;
-    saveMemories();
-    displayAllMemories();
-    editModal.remove();
-  });
+  if (newTopic) memory.topic = newTopic;
+  if (newDetails) memory.details = newDetails;
 
-  // Cancel editing
-  document.getElementById("cancel-edit").addEventListener("click", () => {
-    editModal.remove();
-  });
+  saveMemories();
+  displayAllMemories();
 }
 
 // Confirm delete memory
 function confirmDelete(memory) {
-  const confirmModal = document.createElement("div");
-  confirmModal.classList.add("modal");
-  confirmModal.innerHTML = `
-    <div class="modal-content">
-      <p>Are you sure you want to delete this memory?</p>
-      <button id="confirm-delete" class="delete-button">Yes</button>
-      <button id="cancel-delete" class="cancel-button">No</button>
-    </div>
-  `;
-  document.body.appendChild(confirmModal);
-
-  // Confirm deletion
-  document.getElementById("confirm-delete").addEventListener("click", () => {
+  if (confirm("Are you sure you want to delete this memory?")) {
     memories = memories.filter((m) => m !== memory);
     saveMemories();
     displayAllMemories();
-    confirmModal.remove();
-  });
-
-  // Cancel deletion
-  document.getElementById("cancel-delete").addEventListener("click", () => {
-    confirmModal.remove();
-  });
+  }
 }
 
 // Toggle favorite
 function toggleFavorite(memory) {
   memory.favorite = !memory.favorite;
-  if (memory.favorite) {
-    bestMemories.push(memory);
-  } else {
-    bestMemories = bestMemories.filter((m) => m !== memory);
-  }
   saveMemories();
-  saveBestMemories();
   displayAllMemories();
 }
 
 // Save memories to localStorage
 function saveMemories() {
   localStorage.setItem("memories", JSON.stringify(memories));
-}
-
-// Save best memories to localStorage
-function saveBestMemories() {
-  localStorage.setItem("bestMemories", JSON.stringify(bestMemories));
 }
 
 // Search memories by topic or category
