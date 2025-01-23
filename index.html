@@ -10,43 +10,38 @@
 <body>
   <!-- Header -->
   <header>
-    <a href="index.html" style="text-decoration: none; color: inherit;">
-      <div class="logo">Memory Jar</div>
-    </a>
-    <div class="user-profile">
-      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User" class="profile-icon">
-    </div>
+    <div class="logo">Memory Jar</div>
+    <a href="my-memories.html" class="my-memories-link">My Memories</a>
   </header>
 
-  <!-- Main Body -->
+  <!-- Add Memory Form -->
   <main>
-    <!-- Add Memory Section -->
     <section id="add-memory">
-      <h2>Add a Memory</h2>
+      <h2>Add Your Memory</h2>
       <form id="memory-form">
         <label for="memory-category">Category</label>
         <select id="memory-category">
-          <option value="Personal">Personal</option>
-          <option value="Family">Family</option>
-          <option value="Achievement">Achievement</option>
-          <option value="Relationship">Relationship</option>
+          <option value="Personal" data-color="blue">Personal</option>
+          <option value="Family" data-color="skyblue">Family</option>
+          <option value="Achievement" data-color="yellow">Achievement</option>
+          <option value="Relationship" data-color="lightcoral">Relationship</option>
         </select>
         
-        <label for="memory-topic">Memory Topic</label>
+        <label for="memory-topic">Topic</label>
         <input type="text" id="memory-topic" placeholder="Enter memory topic" required>
         
         <label for="memory-details">Details</label>
         <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
         
-        <button type="submit">Add Memory</button>
+        <button type="submit">Save Memory</button>
       </form>
     </section>
 
-    <!-- Best Memories Section -->
+    <!-- Best Memories -->
     <section id="best-memories">
       <h2>Best Memories</h2>
-      <div id="memories">
-        <!-- Memories will be displayed here -->
+      <div id="memory-list">
+        <!-- Memories will be dynamically added here -->
       </div>
     </section>
   </main>
@@ -54,17 +49,16 @@
   <!-- Footer -->
   <footer>
     <div class="footer-links">
-      <a href="contact.html">Contact</a>
-      <a href="about.html">About</a>
-      <a href="privacy.html">Privacy</a>
-      <a href="terms.html">Terms & Conditions</a>
+      <a href="#">About Us</a>
+      <a href="#">Contact Us</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms and Conditions</a>
     </div>
     <div class="social-media">
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
-      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Snapchat"></a>
     </div>
     <div class="copyright">
       ©2025 Memory Jar.
