@@ -9,44 +9,48 @@ const searchMemories = document.getElementById("search-memories");
 function displayAllMemories(filteredMemories = memories) {
   memoryList.innerHTML = ""; // Clear memory list
 
-  filteredMemories.forEach((memory) => {
-    const card = document.createElement("div");
-    card.classList.add("memory-card");
-    card.style.borderLeft = `5px solid ${memory.color}`;
-    
-    const memoryDetails = `
-      <h3>${memory.topic}</h3>
-      <p class="category">${memory.category}</p>
-      <div class="memory-details">
-        <p class="memory-text">${memory.details}</p>
-        <button class="view-more">View More</button>
-      </div>
-      <small>${memory.date}</small>
-    `;
-    card.innerHTML = memoryDetails;
+  if (filteredMemories.length === 0) {
+    memoryList.innerHTML = "<p>No memories found.</p>";
+  } else {
+    filteredMemories.forEach((memory) => {
+      const card = document.createElement("div");
+      card.classList.add("memory-card");
+      card.style.borderLeft = `5px solid ${memory.color}`;
+      
+      const memoryDetails = `
+        <h3>${memory.topic}</h3>
+        <p class="category">${memory.category}</p>
+        <div class="memory-details">
+          <p class="memory-text">${memory.details}</p>
+          <button class="view-more">View More</button>
+        </div>
+        <small>${memory.date}</small>
+      `;
+      card.innerHTML = memoryDetails;
 
-    // Add "Edit" button
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.style.backgroundColor = "orange";
-    editButton.addEventListener("click", () => editMemory(memory));
-    card.appendChild(editButton);
+      // Add "Edit" button
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+      editButton.style.backgroundColor = "orange";
+      editButton.addEventListener("click", () => editMemory(memory));
+      card.appendChild(editButton);
 
-    // Add "Delete" button
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.style.backgroundColor = "red";
-    deleteButton.addEventListener("click", () => deleteMemory(memory));
-    card.appendChild(deleteButton);
+      // Add "Delete" button
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.style.backgroundColor = "red";
+      deleteButton.addEventListener("click", () => deleteMemory(memory));
+      card.appendChild(deleteButton);
 
-    // Add "Favorite" button
-    const favoriteButton = document.createElement("button");
-    favoriteButton.textContent = memory.favorite ? "★ Unmark Favorite" : "☆ Mark Favorite";
-    favoriteButton.addEventListener("click", () => toggleFavorite(memory));
-    card.appendChild(favoriteButton);
+      // Add "Favorite" button
+      const favoriteButton = document.createElement("button");
+      favoriteButton.textContent = memory.favorite ? "★ Unmark Favorite" : "☆ Mark Favorite";
+      favoriteButton.addEventListener("click", () => toggleFavorite(memory));
+      card.appendChild(favoriteButton);
 
-    memoryList.appendChild(card);
-  });
+      memoryList.appendChild(card);
+    });
+  }
 }
 
 // Edit memory
