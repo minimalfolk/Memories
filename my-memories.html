@@ -6,21 +6,30 @@
   <title>My Memories</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="my-memories.css">
+  <script src="my-memories.js" defer></script>
 </head>
 <body>
   <!-- Header -->
   <header>
-    <div class="logo">Memory Jar</div>
-    <a href="index.html" class="my-memories-link">Back</a>
+    <div class="logo">
+      <i class="fas fa-jar"></i> Memory Jar
+    </div>
+    <a href="index.html" class="back-link">
+      <i class="fas fa-arrow-left"></i> Back
+    </a>
   </header>
 
   <!-- Search Bar -->
-  <input 
-  type="text" 
-  id="search-memories" 
-  placeholder="Search Your Memories..." 
-  style="width: 95%; padding: 10px; margin: 10px auto; border: 1px solid #ddd; border-radius: 15px;">
-  
+  <div class="search-container">
+    <input 
+      type="text" 
+      id="search-memories" 
+      placeholder="Search Your Memories..." 
+      class="search-bar"
+      oninput="filterMemories()"
+    >
+  </div>
+
   <!-- Memories Section -->
   <main>
     <section id="memory-list-container">
@@ -31,25 +40,68 @@
   </main>
 
   <!-- Footer -->
- <footer>
-  <div class="footer-links">
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact Us</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms and Conditions</a>
-  </div>
-  <div class="social-media small-icons">
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
-  </div>
-  <div class="copyright">
-    ©2025 Memory Jar.
-  </div>
-</footer>
+  <footer>
+    <div class="footer-links">
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms and Conditions</a>
+    </div>
+    <div class="social-media small-icons">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+    </div>
+    <div class="copyright">
+      ©2025 Memory Jar.
+    </div>
+  </footer>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const memoryList = document.getElementById('memory-list');
+      let memories = JSON.parse(localStorage.getItem('memories')) || [];
 
-  <script src="my-memories.js"></script>
+      // Display memories on page load
+      function displayMemories(filteredMemories = memories) {
+        memoryList.innerHTML = ''; // Clear previous memories
+        if (filteredMemories.length === 0) {
+          memoryList.innerHTML = '<p>No memories found.</p>';
+        } else {
+          filteredMemories.forEach(memory => {
+            const card = document.createElement('div');
+            card.classList.add('memory-card');
+            card.style.borderLeft = `5px solid ${memory.color}`;
+
+            const memoryDetails = `
+              <h3>${memory.topic}</h3>
+              <p class="category">${memory.category}</p>
+              <div class="memory-details">
+                <p class="memory-text">${memory.details}</p>
+                <small>${memory.date}</small> <!-- Display the date -->
+              </div>
+            `;
+
+            card.innerHTML = memoryDetails;
+            memoryList.appendChild(card);
+          });
+        }
+      }
+
+      // Call display function on page load
+      displayMemories();
+
+      // Filter memories based on search input
+      window.filterMemories = function() {
+        const searchQuery = document.getElementById('search-memories').value.toLowerCase();
+        const filteredMemories = memories.filter(memory => 
+          memory.topic.toLowerCase().includes(searchQuery) || 
+          memory.details.toLowerCase().includes(searchQuery)
+        );
+        displayMemories(filteredMemories);
+      };
+    });
+  </script>
 </body>
 </html>
