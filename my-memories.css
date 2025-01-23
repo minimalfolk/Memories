@@ -174,11 +174,13 @@ small {
 /* Footer */
 footer {
   text-align: center;
-  margin-top: 20px;
   padding: 10px;
   background-color: #333;
   color: #fff;
   margin-top: auto;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .footer-links a {
