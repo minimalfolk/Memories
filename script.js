@@ -6,6 +6,7 @@ const memoryForm = document.getElementById("memory-form");
 const memoryListContainer = document.getElementById("memory-list-container");
 const bestMemoryList = document.getElementById("best-memory-list");
 const searchBar = document.getElementById("search-bar");
+const voiceSearchBtn = document.getElementById("voice-search-btn");
 
 // Function to save memories to localStorage
 function saveMemories() {
@@ -202,9 +203,13 @@ if ('webkitSpeechRecognition' in window) {
       memory.details.toLowerCase().includes(searchTerm)
     );
     displayMemories(filteredMemories);
+    // Voice feedback on search results
+    const speechSynthesis = window.speechSynthesis;
+    const searchFeedback = new SpeechSynthesisUtterance(`Found ${filteredMemories.length} memories`);
+    speechSynthesis.speak(searchFeedback);
   };
 
-  document.getElementById("voice-search-btn").addEventListener("click", function () {
+  voiceSearchBtn.addEventListener("click", function () {
     recognition.start();
   });
 }
