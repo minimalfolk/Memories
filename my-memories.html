@@ -10,25 +10,27 @@
 <body>
   <!-- Header -->
   <header>
-  <div class="header-top">
-    <div class="logo">Memory Jar</div>
-    <button class="back-button" onclick="window.location.href='index.html'">Back</button>
-  </div>
-  <div class="header-bottom">
-    <input type="text" id="search-memories" placeholder="Search memories..." oninput="filterMemories()" />
-    <select id="sort-memories" onchange="sortMemories()">
-      <option value="default">Sort by</option>
-      <option value="date">Date</option>
-      <option value="category">Category</option>
-      <option value="favorite">Favorites</option>
-    </select>
-  </div>
-</header>
+    <div class="header-top">
+      <div class="logo">Memory Jar</div>
+      <button class="back-button" onclick="window.location.href='index.html'">Back</button>
+    </div>
+    <div class="header-bottom">
+      <input type="text" id="search-memories" placeholder="Search memories..." oninput="filterMemories()" />
+      <select id="sort-memories" onchange="sortMemories()">
+        <option value="default">Sort by</option>
+        <option value="date">Date</option>
+        <option value="category">Category</option>
+        <option value="favorite">Favorites</option>
+      </select>
+    </div>
+  </header>
 
   <!-- Memory List Container -->
   <div id="memory-list-container">
     <!-- Memory Cards Will Be Dynamically Added Here -->
   </div>
+  <div id="no-memories-msg" class="hidden">No memories found.</div>
+  <div id="loading-spinner" class="hidden">Loading...</div>
 
   <!-- Modal for Add/Edit Memory -->
   <div id="memory-modal" class="modal hidden">
@@ -47,17 +49,10 @@
         <input type="text" id="memory-topic" placeholder="Enter memory topic" required>
         <label for="memory-details">Details</label>
         <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
-        <button type="button" onclick="saveMemory()">Save</button>
+        <label for="memory-tags">Tags</label>
+        <input type="text" id="memory-tags" placeholder="Enter tags separated by commas">
+        <button type="button" id="save-button" onclick="saveMemory()">Save</button>
       </form>
-    </div>
-  </div>
-
-  <!-- Confirmation Modal for Favorite/Unfavorite -->
-  <div id="favorite-confirmation-modal" class="modal hidden">
-    <div class="modal-content">
-      <p id="favorite-message"></p>
-      <button id="confirm-favorite" onclick="confirmFavorite()">Yes</button>
-      <button id="cancel-favorite" onclick="closeFavoriteModal()">No</button>
     </div>
   </div>
 
