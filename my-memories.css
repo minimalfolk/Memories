@@ -21,27 +21,36 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  width: 100%; /* Ensure header takes full width */
-  box-sizing: border-box; /* Prevents overflow */
-  margin: 0; /* Remove any unintended margins */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 header .back-button {
-  font-size: 1.2em;
+  font-size: 1em;
   color: white;
+  background-color: #0056b3;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 5px;
   text-decoration: none;
+  cursor: pointer;
   margin-right: 10px;
 }
 
+header .back-button:hover {
+  background-color: #004085;
+}
+
 header .logo {
-  font-size: 1.6em;
+  font-size: 1.4em;
   font-weight: 600;
-  white-space: nowrap; /* Prevent logo text from wrapping */
+  display: flex;
+  align-items: center;
 }
 
 header .search-container {
   position: relative;
-  width: 50%; /* Use relative width to make it more flexible */
+  width: 50%;
 }
 
 header .search-container input {
@@ -72,6 +81,8 @@ header .search-container input:focus {
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 100%; /* Prevent overflow */
+  word-wrap: break-word; /* Prevent text overflow */
 }
 
 .memory-card:hover {
@@ -112,16 +123,20 @@ header .search-container input:focus {
 .memory-card .memory-actions {
   display: flex;
   justify-content: flex-start;
+  gap: 10px;
 }
 
 .memory-card .memory-actions button {
-  font-size: 0.9em;
-  padding: 8px 12px;
-  margin-right: 10px;
-  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   border: none;
-  border-radius: 5px;
+  color: white;
+  font-size: 1.1em;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
 }
 
@@ -141,6 +156,32 @@ header .search-container input:focus {
   background-color: #4caf50;
 }
 
+/* Icons */
+.memory-card .memory-actions button::before {
+  font-family: 'Font Awesome 5 Free'; /* Use an icon font */
+  font-weight: 900;
+}
+
+.memory-card .edit-button::before {
+  content: '\f044'; /* Pencil icon */
+}
+
+.memory-card .delete-button::before {
+  content: '\f1f8'; /* Trash icon */
+}
+
+.memory-card .favorite-button.favorited {
+  background-color: #d9534f; /* Change color for unfavoriting */
+}
+
+.memory-card .favorite-button.favorited::before {
+  content: '\f004'; /* Solid heart icon */
+}
+
+.memory-card .favorite-button::before {
+  content: '\f08a'; /* Regular heart icon */
+}
+
 /* Footer */
 footer {
   text-align: center;
@@ -150,7 +191,7 @@ footer {
   position: relative;
   bottom: 0;
   width: 100%;
-  box-sizing: border-box; /* Ensure footer takes full width */
+  box-sizing: border-box;
 }
 
 footer a {
@@ -174,53 +215,27 @@ footer a:hover {
   header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px;
   }
 
   header .back-button {
     margin-bottom: 10px;
   }
 
-  header .logo {
-    font-size: 1.4em;
-    margin-bottom: 10px;
-  }
-
-  header .search-container input {
+  header .search-container {
     width: 100%;
-  }
-
-  #memory-list-container {
-    padding: 15px;
-  }
-
-  .memory-card {
-    width: 100%;
-    padding: 15px;
-  }
-
-  .memory-card h3.memory-topic {
-    font-size: 1.1em;
   }
 }
 
 @media (max-width: 480px) {
-  header {
-    padding: 10px;
-  }
-
   .memory-card {
-    padding: 12px;
+    padding: 15px;
   }
 
   .memory-card h3.memory-topic {
     font-size: 1em;
   }
 
-  .memory-card .category {
-    font-size: 0.8em;
-  }
-
+  .memory-card .category,
   .memory-card .memory-text {
     font-size: 0.9em;
   }
@@ -231,11 +246,9 @@ footer a:hover {
 
   footer a {
     font-size: 0.8em;
-    margin: 0 8px;
   }
 
   .social-media img {
     width: 20px;
-    margin: 4px;
   }
 }
