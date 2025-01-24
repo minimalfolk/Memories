@@ -6,6 +6,8 @@ body {
   background-color: #f3f7fb;
   color: #333;
   line-height: 1.6;
+  width: 100%;
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
 /* Header */
@@ -15,20 +17,23 @@ header {
   align-items: center;
   background-color: #007bff;
   color: white;
-  padding: 15px 20px;
+  padding: 10px 15px;
   position: sticky;
   top: 0;
   z-index: 10;
+  width: 100%;
+  box-sizing: border-box; /* Prevents overflow */
 }
 
 header .logo {
-  font-size: 2em;
+  font-size: 1.6em;
   font-weight: 600;
+  white-space: nowrap; /* Prevent logo text from wrapping */
 }
 
 header .search-container {
   position: relative;
-  width: 90%;
+  width: 50%; /* Use relative width to make it more flexible */
 }
 
 header .search-container input {
@@ -55,7 +60,7 @@ header .search-container input:focus {
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin: 10px 0;
+  margin: 15px 0;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -160,7 +165,7 @@ footer a:hover {
   header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 15px;
+    padding: 10px;
   }
 
   header .logo {
