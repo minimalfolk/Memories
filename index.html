@@ -3,68 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memory Jar</title>
+  <title>Memory Jar - Add Memory</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <!-- Add FontAwesome CDN for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <!-- Header -->
   <header>
-    <div class="logo">
-      <i class="fas fa-jar"></i> Memory Jar
+    <div class="header-container">
+      <a href="index.html" style="text-decoration: none; color: inherit;">
+        <div class="logo">Memory Jar</div>
+      </a>
+      <div class="header-actions">
+        <a href="my-memories.html" class="my-memories-link">My Memories</a>
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Profile" class="profile-icon">
+      </div>
     </div>
-    <!-- Link replaced with Icon -->
-    <a href="my-memories.html" class="my-memories-link">
-      <i class="fas fa-jar"></i>
-    </a>
   </header>
 
-  <!-- Add Memory Form -->
+  <!-- Main Body -->
   <main>
     <section id="add-memory">
-      <h2>Add Your Memory</h2>
+      <h2>Add a Memory</h2>
       <form id="memory-form">
         <label for="memory-category">Category</label>
         <select id="memory-category">
-          <option value="Personal" data-color="blue">Personal</option>
-          <option value="Family" data-color="skyblue">Family</option>
-          <option value="Achievement" data-color="yellow">Achievement</option>
-          <option value="Relationship" data-color="lightcoral">Relationship</option>
+          <option value="Personal">Personal</option>
+          <option value="Family">Family</option>
+          <option value="Achievement">Achievement</option>
+          <option value="Relationship">Relationship</option>
+          <option value="Friends">Friends</option> <!-- Added new category -->
         </select>
-        
-        <label for="memory-topic">Topic</label>
+
+        <label for="memory-topic">Memory Topic</label>
         <input type="text" id="memory-topic" placeholder="Enter memory topic" required>
-        
+
         <label for="memory-details">Details</label>
         <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
-        
-        <button type="submit">Save Memory</button>
+
+        <label for="memory-tags">Tags (optional)</label>
+        <input type="text" id="memory-tags" placeholder="Add tags (e.g., joy, family, trip)">
+
+        <button type="submit" class="submit-button">Add Memory</button>
       </form>
     </section>
 
-    <!-- Best Memories Section on Index Page -->
-<section id="best-memories">
-  <h2>Best Memories</h2>
-  <div id="best-memories-list">
-    <!-- Favorite memories will be listed here -->
-  </div>
-</section>
+    <section id="memory-list-container">
+      <h2>My Memories</h2>
+      <div id="memory-list"></div>
+    </section>
+  </main>
 
   <!-- Footer -->
   <footer>
     <div class="footer-links">
-      <a href="about.html">About Us</a>
-      <a href="contact.html">Contact Us</a>
-      <a href="privacy.html">Privacy Policy</a>
-      <a href="terms.html">Terms and Conditions</a>
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms & Conditions</a>
     </div>
     <div class="social-media">
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
       <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Snapchat"></a>
     </div>
     <div class="copyright">
       ©2025 Memory Jar.
@@ -72,40 +75,5 @@
   </footer>
 
   <script src="script.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const memoryList = document.getElementById('memory-list'); // Corrected ID
-      let memories = JSON.parse(localStorage.getItem('memories')) || [];
-
-      function displayBestMemories() {
-        memoryList.innerHTML = ''; // Clear the memory list
-        const bestMemories = memories.filter(memory => memory.isFavorite);
-
-        if (bestMemories.length === 0) {
-          memoryList.innerHTML = '<p>No favorite memories found.</p>';
-        } else {
-          bestMemories.forEach(memory => {
-            const card = document.createElement('div');
-            card.classList.add('memory-card');
-            card.style.borderLeft = `5px solid ${memory.color}`;
-            
-            const memoryDetails = `
-              <h3>${memory.topic}</h3>
-              <p class="category">${memory.category}</p>
-              <div class="memory-details">
-                <p class="memory-text">${memory.details}</p>
-                <button class="view-more">View More</button>
-              </div>
-              <small>${memory.date}</small>
-            `;
-            card.innerHTML = memoryDetails;
-            memoryList.appendChild(card);
-          });
-        }
-      }
-
-      displayBestMemories(); // Call this on page load to display memories
-    });
-  </script>
 </body>
 </html>
