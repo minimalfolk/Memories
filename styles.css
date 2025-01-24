@@ -22,6 +22,13 @@ header {
   transition: background-color 0.3s ease;
 }
 
+header .header-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
 header .logo {
   font-size: 1.8rem;
   font-weight: 600;
@@ -29,21 +36,20 @@ header .logo {
   align-items: center;
 }
 
-header .logo i {
+header .logo .jar-icon {
   margin-right: 10px;
+}
+
+header .logo .logo-text {
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
 header .my-memories-link {
   color: white;
-  font-size: 2rem;
-  display: flex;
-  align-items: center;
+  font-size: 1.2rem;
   text-decoration: none;
   transition: color 0.3s ease;
-}
-
-header .my-memories-link i {
-  margin-right: 8px;
 }
 
 header .my-memories-link:hover {
@@ -115,17 +121,20 @@ main {
   background-color: #ffcc00;
 }
 
-/* Best Memories Section */
-#best-memories {
+/* Memory List Section */
+#memory-list-container,
+#best-memories-container {
   margin-top: 30px;
 }
 
-#best-memories h2 {
+#memory-list-container h2,
+#best-memories-container h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
   color: #333;
 }
 
+/* Best Memories Section */
 .memory-card {
   background-color: #ffffff;
   padding: 20px;
