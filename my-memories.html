@@ -11,24 +11,24 @@
 <body>
   <!-- Header -->
   <header>
-    <div class="logo">
-      <i class="fas fa-jar"></i> Memory Jar
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-jar"></i> Memory Jar
+      </div>
+      <div class="search-container">
+        <input 
+          type="text" 
+          id="search-memories" 
+          placeholder="Search Memories..." 
+          class="search-bar"
+          oninput="filterMemories()"
+        >
+        <button id="voice-search-btn" onclick="startVoiceSearch()">
+          🎤
+        </button>
+      </div>
     </div>
-    <a href="index.html" class="back-link">
-      <i class="fas fa-arrow-left"></i> Back
-    </a>
   </header>
-
-  <!-- Search Bar -->
-  <div class="search-container">
-    <input 
-      type="text" 
-      id="search-memories" 
-      placeholder="Search Your Memories..." 
-      class="search-bar"
-      oninput="filterMemories()"
-    >
-  </div>
 
   <!-- Memories Section -->
   <main>
@@ -97,9 +97,28 @@
         const searchQuery = document.getElementById('search-memories').value.toLowerCase();
         const filteredMemories = memories.filter(memory => 
           memory.topic.toLowerCase().includes(searchQuery) || 
-          memory.details.toLowerCase().includes(searchQuery)
+          memory.details.toLowerCase().includes(searchQuery) ||
+          memory.category.toLowerCase().includes(searchQuery)
         );
         displayMemories(filteredMemories);
+      };
+
+      // Voice Search function
+      window.startVoiceSearch = function() {
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'en-US';
+
+        recognition.start();
+
+        recognition.onresult = function(event) {
+          const speechResult = event.results[0][0].transcript.toLowerCase();
+          document.getElementById('search-memories').value = speechResult; // Set the input field with speech result
+          filterMemories(); // Call the filter function to filter memories based on voice search
+        };
+
+        recognition.onerror = function(event) {
+          console.log('Error occurred in voice recognition: ' + event.error);
+        };
       };
     });
   </script>
