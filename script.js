@@ -21,8 +21,13 @@ function saveMemories(memories) {
 // Infinite scrolling variables
 let currentIndex = 0;
 const batchSize = 10;
+let isDataLoading = false;
 
 // Show and hide spinner for loading
+function showSkeleton() {
+  document.getElementById('memory-list-container').innerHTML = "<div class='skeleton-loader'></div>"; // Add skeleton loader while loading data
+}
+
 function showSpinner() {
   document.getElementById('loading-spinner').classList.remove('hidden');
 }
@@ -33,8 +38,11 @@ function hideSpinner() {
 
 // Render memories with infinite scrolling
 function renderMemories(containerId, filterFn = () => true) {
-  showSpinner();
-  setTimeout(() => {  // Simulating async loading
+  if (isDataLoading) return;
+  showSkeleton();  // Show loading skeleton while fetching data
+  isDataLoading = true;
+
+  setTimeout(() => {
     const container = document.getElementById(containerId);
     const allMemories = getMemories().filter(filterFn);
     const memories = allMemories.slice(currentIndex, currentIndex + batchSize);
@@ -57,13 +65,13 @@ function renderMemories(containerId, filterFn = () => true) {
       container.appendChild(memoryCard);
     });
 
-    hideSpinner();
-  }, 500);  // Simulating a delay (remove or adjust based on your actual data fetch)
+    isDataLoading = false;
+    hideSpinner();  // Hide loading spinner once data is rendered
+  }, 500);  // Simulating async loading, adjust or remove the delay as needed
 }
 
 // Open memory options modal for editing
 function openMemoryOptions(memoryId) {
-  // Show edit and favorite options
   const memory = getMemories().find(m => m.id === memoryId);
   if (memory) {
     openAddMemoryModal(memory);  // Reuse the Add Memory modal to edit memory
@@ -131,3 +139,19 @@ function initPage() {
 }
 
 document.addEventListener('DOMContentLoaded', initPage);
+
+// Filter memories by tags (live search)
+function filterMemories() {
+  const query = document.getElementById('search-memories').value.toLowerCase();
+  const tag = document.getElementById('filter-tags').value.toLowerCase();
+  const memories = getMemories().filter(memory =>
+    memory.topic.toLowerCase().includes(query) || memory.details.toLowerCase().includes(query)
+  );
+  renderMemories('memory-list-container', memory => 
+    memories.includes(memory) && (tag ? memory.tags.includes(tag) : true)
+  );
+}
+
+// Add event listener to filter memories on tag selection or search input change
+document.getElementById('search-memories').addEventListener('input', filterMemories);
+document.getElementById('filter-tags').addEventListener('change', filterMemories);
