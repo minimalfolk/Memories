@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const memoryListContainer = document.getElementById('memory-list-container');
+    const memoryListContainer = document.getElementById('memory-list');
     const memoryForm = document.getElementById('memory-form');
-    const searchBar = document.getElementById('search-bar');
+    const searchBar = document.getElementById('search-memories');
     const voiceSearchBtn = document.getElementById('voice-search-btn');
     const bestMemoryList = document.getElementById("best-memory-list");
     const noBestMemoriesMsg = document.getElementById("no-best-memories-msg");
 
-    // Load memories with decompression if needed
+    // Load memories from localStorage with decompression if needed
     let memories = loadMemories();
 
     // Display memories function
@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             ${memory.favorite ? '⭐' : '☆'}
                         </button>
                     </div>
+                    <button class="view-more" onclick="toggleMemoryDetails(this)">View More</button>
                 `;
                 memoryListContainer.appendChild(memoryCard);
             });
@@ -80,9 +81,20 @@ document.addEventListener('DOMContentLoaded', function () {
         return colors[category] || "gray";
     }
 
+    // Toggle memory details (expand/collapse animation)
+    window.toggleMemoryDetails = function (btn) {
+        const card = btn.closest('.memory-card');
+        card.classList.toggle("expanded");
+        if (card.classList.contains("expanded")) {
+            btn.textContent = "View Less";
+        } else {
+            btn.textContent = "View More";
+        }
+    }
+
     // Filter memories
     window.filterMemories = function () {
-        const query = document.getElementById('search-memories').value.toLowerCase();
+        const query = searchBar.value.toLowerCase();
         const filtered = memories.filter(memory =>
             memory.topic.toLowerCase().includes(query) ||
             memory.details.toLowerCase().includes(query) ||
@@ -93,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Reset search
     window.resetSearch = function () {
-        document.getElementById('search-memories').value = '';
+        searchBar.value = '';
         displayMemories();
     };
 
@@ -123,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const details = document.getElementById("memory-details").value;
 
         const newMemory = {
+            id: `${memories.length + 1}`,
             category,
             topic,
             details,
