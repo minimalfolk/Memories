@@ -72,14 +72,14 @@
               <h3 class="memory-topic">${memory.topic}</h3>
               <p class="memory-text">${memory.details}</p>
               <div class="memory-actions">
-                <button class="edit-button" onclick="editMemory('${memory.id}')">
+                <button class="edit-button" onclick="editMemory('{memory.id}')">
                   ✏️
                 </button>
-                <button class="delete-button" onclick="deleteMemory('${memory.id}')">
+                <button class="delete-button" onclick="deleteMemory('{memory.id}')">
                   ❌
                 </button>
-                <button class="favorite-button" onclick="toggleFavorite('${memory.id}')">
-                  ${memory.favorite ? '⭐' : '☆'}
+                <button class="favorite-button" onclick="toggleFavorite('{memory.id}')">
+                  {memory.favorite ? '⭐' : '☆'}
                 </button>
               </div>
             `;
