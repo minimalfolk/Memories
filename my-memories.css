@@ -26,12 +26,6 @@ header {
   box-sizing: border-box;
 }
 
-header  .header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 header .logo {
   font-size: 1.2em; /* Slightly reduced logo font size for better balance */
 }
