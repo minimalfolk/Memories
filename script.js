@@ -3,7 +3,7 @@ let memories = JSON.parse(localStorage.getItem("memories")) || [];
 
 // DOM elements
 const memoryForm = document.getElementById("memory-form");
-const memoryListContainer = document.getElementById("memory-list-container");
+const memoryListContainer = document.getElementById("memory-list");
 const bestMemoryList = document.getElementById("best-memory-list");
 const searchBar = document.getElementById("search-bar");
 const voiceSearchBtn = document.getElementById("voice-search-btn");
