@@ -8,6 +8,7 @@ body {
   line-height: 1.6;
   width: 100%;
   overflow-x: hidden; /* Prevent horizontal scrolling */
+  scroll-behavior: smooth; /* Smooth scroll on page load */
 }
 
 /* Header */
@@ -66,7 +67,9 @@ header .search-container input {
 }
 
 header .search-container input:focus {
-  border-color: #0056b3;
+  width: 100%;
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 header .search-container button {
@@ -130,14 +133,15 @@ header .search-container button:hover {
   margin: 15px 0;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   max-width: 100%; /* Prevent overflow */
   word-wrap: break-word; /* Prevent text overflow */
 }
 
 .memory-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  background-color: #f0f8ff; /* Light background on hover */
 }
 
 .memory-card .memory-header {
@@ -165,7 +169,7 @@ header .search-container button:hover {
 
 .memory-card .memory-text {
   font-size: 1em;
-  line-height: 1.6;
+  line-height: 1.8;
   color: #333;
   margin-bottom: 15px;
 }
@@ -235,6 +239,14 @@ header .search-container button:hover {
   width: 90%;
   max-width: 500px;
   position: relative;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.show .modal-content {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .modal-content .close-button {
@@ -280,6 +292,47 @@ footer .social-media img {
   margin: 5px;
 }
 
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  font-size: 1.5em;
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.3s ease;
+}
+
+.fab:hover {
+  transform: scale(1.1);
+  background-color: #0056b3;
+}
+
+/* Loader */
+.loader {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   header {
@@ -295,22 +348,87 @@ footer .social-media img {
     flex-direction: column;
     gap: 10px;
   }
-}
 
-@media (max-width: 480px) {
   .memory-card {
     padding: 15px;
+    width: 100%;
+  }
+
+  .fab {
+    bottom: 10px;
+    right: 10px;
   }
 
   footer {
     padding: 10px;
+    font-size: 0.85em;
+  }
+}
+
+/* Mobile View */
+@media (max-width: 480px) {
+  header .logo {
+    font-size: 1.2em;
   }
 
-  footer a {
+  header .search-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .sorting-filters {
+    flex-direction: column;
+  }
+
+  .memory-card {
+    padding: 10px;
+    font-size: 0.9em;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 90%;
+    font-size: 0.9em;
+  }
+
+  footer {
     font-size: 0.8em;
   }
 
   footer .social-media img {
     width: 20px;
   }
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Tooltip */
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
