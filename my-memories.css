@@ -22,13 +22,13 @@ header {
 }
 
 header .logo {
-  font-size: 1.8em;
+  font-size: 2em;
   font-weight: 600;
 }
 
 header .search-container {
   position: relative;
-  width: 40%;
+  width: 90%;
 }
 
 header .search-container input {
@@ -55,7 +55,7 @@ header .search-container input:focus {
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin: 15px 0;
+  margin: 10px 0;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
