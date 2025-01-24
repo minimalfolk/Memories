@@ -5,116 +5,228 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Memories</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    /* Add some basic styles */
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f0f0f0;
-    }
-    header {
-      background-color: #333;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-    main {
-      padding: 20px;
-    }
-    .memory-card {
-      background-color: white;
-      margin: 10px;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .memory-header {
-      display: flex;
-      justify-content: space-between;
-    }
-    .category {
-      font-weight: bold;
-    }
-    .memory-actions button {
-      background-color: #007bff;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      margin: 5px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .memory-actions button:hover {
-      background-color: #0056b3;
-    }
-    .memory-actions .favorite-button {
-      background-color: #ffb400;
-    }
-    .memory-actions .edit-button {
-      background-color: #28a745;
-    }
-    .memory-actions .delete-button {
-      background-color: #dc3545;
-    }
-    .search-container {
-      margin-bottom: 20px;
-    }
-    .search-container input {
-      padding: 10px;
-      width: 100%;
-      font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .memory-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .memory-card .memory-text {
-      font-size: 14px;
-      line-height: 1.5;
-    }
-    .memory-card .expanded {
-      white-space: normal;
-    }
-    .view-more {
-      color: #007bff;
-      cursor: pointer;
-    }
-    .view-more:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <link rel="stylesheet" href="my-memories.css">
 </head>
 <body>
-
   <!-- Header -->
   <header>
-    <h1>My Memories</h1>
+    <div class="header-content">
+      <div class="logo">Memory Jar</div>
+      <button class="back-button" onclick="window.location.href='index.html'">Back</button>
+    </div>
+    <div class="search-container">
+      <input type="text" id="search-memories" placeholder="Search memories..." oninput="filterMemories()" />
+      <button id="clear-search" onclick="resetSearch()">Clear</button>
+    </div>
   </header>
 
-  <!-- Main content -->
-  <main>
-    <!-- Search Bar -->
-    <div class="search-container">
-      <input type="text" id="search-bar" placeholder="Search your memories..." onkeyup="filterMemories()">
-    </div>
+  <!-- Sorting and Filters -->
+  <div class="sorting-filters">
+    <select id="sort-memories" onchange="sortMemories()">
+      <option value="default">Sort by</option>
+      <option value="date">Date</option>
+      <option value="category">Category</option>
+      <option value="favorite">Favorites</option>
+    </select>
+    <button id="filter-favorites" onclick="toggleFavoriteFilter()">Show Favorites</button>
+  </div>
 
-    <!-- Memory List -->
-    <div id="memory-list" class="memory-list">
-      <!-- Memories will be dynamically inserted here -->
+  <!-- Memory List Container -->
+  <div id="memory-list-container">
+    <!-- Memory Cards Will Be Dynamically Added Here -->
+  </div>
+
+  <!-- Modal for Add/Edit Memory -->
+  <div id="memory-modal" class="modal hidden">
+    <div class="modal-content">
+      <span class="close-button" onclick="closeModal()">×</span>
+      <h2 id="modal-title">Add/Edit Memory</h2>
+      <form id="memory-form">
+        <label for="memory-category">Category</label>
+        <select id="memory-category">
+          <option value="Personal">Personal</option>
+          <option value="Family">Family</option>
+          <option value="Achievement">Achievement</option>
+          <option value="Relationship">Relationship</option>
+        </select>
+        <label for="memory-topic">Topic</label>
+        <input type="text" id="memory-topic" placeholder="Enter memory topic" required>
+        <label for="memory-details">Details</label>
+        <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
+        <button type="button" onclick="saveMemory()">Save</button>
+      </form>
     </div>
-  </main>
+  </div>
+
+  <!-- Confirmation Modal for Favorite/Unfavorite -->
+  <div id="favorite-confirmation-modal" class="modal hidden">
+    <div class="modal-content">
+      <p id="favorite-message"></p>
+      <button id="confirm-favorite" onclick="confirmFavorite()">Yes</button>
+      <button id="cancel-favorite" onclick="closeFavoriteModal()">No</button>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Memojar | All Rights Reserved</p>
+    <div class="footer-links">
+      <a href="contact.html">Contact</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms & Conditions</a>
+    </div>
+    <div class="social-media">
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733558.png" alt="Instagram"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter"></a>
+      <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Snapchat"></a>
+    </div>
+    <div class="copyright">
+      ©2025 Memory Jar.
+    </div>
   </footer>
 
-  <!-- Include the script -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
-  <script src="script.js"></script>
+  <!-- Add Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const memoryListContainer = document.getElementById('memory-list-container');
+      let memories = JSON.parse(localStorage.getItem('memories')) || [
+        { id: "1", category: "Personal", date: "2025-01-20", topic: "Graduation Day", details: "The day I graduated college!", favorite: false },
+        { id: "2", category: "Family", date: "2025-01-21", topic: "Family Trip", details: "Our amazing trip to the mountains!", favorite: true }
+      ];
+      let showFavorites = false;
+      let memoryToToggleFavorite = null;
+
+      // Display memories function
+      function displayMemories(filteredMemories = memories) {
+        memoryListContainer.innerHTML = '';
+        if (filteredMemories.length === 0) {
+          memoryListContainer.innerHTML = '<p>No memories found. Start by adding your first memory!</p>';
+        } else {
+          filteredMemories.forEach(memory => {
+            const memoryCard = document.createElement('div');
+            memoryCard.classList.add('memory-card', memory.favorite ? 'favorite' : '');
+
+            memoryCard.innerHTML = `
+              <div class="memory-header">
+                <span class="category">${memory.category}</span>
+                <span class="date">${memory.date}</span>
+              </div>
+              <h3 class="memory-topic">${memory.topic}</h3>
+              <p class="memory-text">${memory.details}</p>
+              <div class="memory-actions">
+                <button class="edit-button" onclick="openModal(true, '${memory.id}')">✏️</button>
+                <button class="delete-button" onclick="deleteMemory('${memory.id}')">❌</button>
+                <button class="favorite-button" onclick="toggleFavorite('${memory.id}')">
+                  ${memory.favorite ? '⭐' : '☆'}
+                </button>
+              </div>
+            `;
+            memoryListContainer.appendChild(memoryCard);
+          });
+        }
+      }
+
+      // Load and display memories
+      displayMemories();
+
+      // Filter memories
+      window.filterMemories = function() {
+        const query = document.getElementById('search-memories').value.toLowerCase();
+        const filtered = memories.filter(memory =>
+          memory.topic.toLowerCase().includes(query) ||
+          memory.details.toLowerCase().includes(query) ||
+          memory.category.toLowerCase().includes(query)
+        );
+        displayMemories(filtered);
+      };
+
+      // Reset search
+      window.resetSearch = function() {
+        document.getElementById('search-memories').value = '';
+        displayMemories();
+      };
+
+      // Sort memories
+      window.sortMemories = function() {
+        const sortOption = document.getElementById('sort-memories').value;
+        if (sortOption === 'date') memories.sort((a, b) => new Date(b.date) - new Date(a.date));
+        if (sortOption === 'category') memories.sort((a, b) => a.category.localeCompare(b.category));
+        if (sortOption === 'favorite') memories.sort((a, b) => b.favorite - a.favorite);
+        displayMemories();
+      };
+
+      // Toggle favorites filter
+      window.toggleFavoriteFilter = function() {
+        showFavorites = !showFavorites;
+        document.getElementById('filter-favorites').textContent = showFavorites ? 'Show All' : 'Show Favorites';
+        const filtered = showFavorites ? memories.filter(m => m.favorite) : memories;
+        displayMemories(filtered);
+      };
+
+      // Open modal
+      window.openModal = function(editMode = false, memoryId = null) {
+        const modal = document.getElementById('memory-modal');
+        document.getElementById('modal-title').textContent = editMode ? 'Edit Memory' : 'Add Memory';
+        modal.classList.remove('hidden');
+
+        if (editMode && memoryId) {
+          const memory = memories.find(m => m.id === memoryId);
+          document.getElementById('memory-category').value = memory.category;
+          document.getElementById('memory-topic').value = memory.topic;
+          document.getElementById('memory-details').value = memory.details;
+        } else {
+          document.getElementById('memory-form').reset();
+        }
+      };
+
+      window.closeModal = function() {
+        document.getElementById('memory-modal').classList.add('hidden');
+      };
+
+      // Save memory
+      window.saveMemory = function() {
+        // Save logic here
+        closeModal();
+      };
+
+      // Delete memory
+      window.deleteMemory = function(id) {
+        memories = memories.filter(memory => memory.id !== id);
+        localStorage.setItem('memories', JSON.stringify(memories));
+        displayMemories();
+      };
+
+      // Toggle favorite
+      window.toggleFavorite = function(id) {
+        const memory = memories.find(memory => memory.id === id);
+        memoryToToggleFavorite = memory.id;  // Save the memory that will be toggled
+
+        // Set the appropriate message based on the favorite status
+        const favoriteMessage = memory.favorite 
+          ? 'Do you want to remove this memory from favorites?'
+          : 'Do you want to add this memory to favorites?';
+
+        // Show the confirmation modal
+        document.getElementById('favorite-message').textContent = favoriteMessage;
+        document.getElementById('favorite-confirmation-modal').classList.remove('hidden');
+      };
+
+      // Confirm favorite action
+      window.confirmFavorite = function() {
+        const memory = memories.find(m => m.id === memoryToToggleFavorite);
+        memory.favorite = !memory.favorite; // Toggle favorite
+        localStorage.setItem('memories', JSON.stringify(memories));
+        displayMemories(); // Re-render memories list
+        closeFavoriteModal(); // Close confirmation modal
+      };
+
+      // Close the favorite confirmation modal
+      window.closeFavoriteModal = function() {
+        document.getElementById('favorite-confirmation-modal').classList.add('hidden');
+      };
+    });
+  </script>
 </body>
 </html>
