@@ -12,10 +12,10 @@ body {
 }
 
 /* Header */
-header .header-content {
+header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   background-color: #007bff;
   color: white;
   padding: 8px 20px; /* Reduced padding for a more compact header */
@@ -24,6 +24,12 @@ header .header-content {
   z-index: 10;
   width: 100%;
   box-sizing: border-box;
+}
+
+header  .header-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 header .logo {
