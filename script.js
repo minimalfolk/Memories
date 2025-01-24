@@ -24,6 +24,8 @@ function getCategoryColor(category) {
       return "yellow";
     case "Relationship":
       return "lightcoral";
+    case "Friends":
+      return "green"; // Added color for "Friends" category
     default:
       return "gray";
   }
@@ -45,12 +47,13 @@ function displayMemories(filteredMemories = memories) {
 
     memoryCard.innerHTML = `
       <h3>${memory.topic}</h3>
-      <p class="category">${memory.category}</p>
+      <p class="category">${memory.category} | ${memory.date}</p>
       <div class="memory-details">
         <p class="memory-text">${memory.details}</p>
         <button class="view-more">View More</button>
       </div>
       <small>${memory.date}</small>
+      <p class="tags">${memory.tags.join(", ")}</p> <!-- Added tags display -->
       <button class="favorite-button" onclick="toggleFavorite(${index})">
         ${memory.favorite ? "Unfavorite" : "Favorite"}
       </button>
@@ -101,7 +104,7 @@ function displayBestMemories() {
 
     memoryItem.innerHTML = `
       <h4>${memory.topic}</h4>
-      <p class="category">${memory.category}</p>
+      <p class="category">${memory.category} | ${memory.date}</p>
       <p class="memory-text">${memory.details}</p>
       <small>${memory.date}</small>
     `;
@@ -117,11 +120,13 @@ memoryForm.addEventListener("submit", function (e) {
   const category = document.getElementById("memory-category").value;
   const topic = document.getElementById("memory-topic").value;
   const details = document.getElementById("memory-details").value;
+  const tags = document.getElementById("memory-tags").value.split(",").map(tag => tag.trim()); // Get tags
 
   const newMemory = {
     category,
     topic,
     details,
+    tags, // Added tags to the memory object
     date: new Date().toLocaleString(),
     favorite: false,
     color: getCategoryColor(category),
@@ -147,6 +152,7 @@ function editMemory(index) {
   const newTopic = prompt("Enter new memory topic:", memories[index].topic);
   const newCategory = prompt("Enter new category:", memories[index].category);
   const newDetails = prompt("Enter new details:", memories[index].details);
+  const newTags = prompt("Enter new tags (comma separated):", memories[index].tags.join(", "));
 
   if (newTopic && newCategory && newDetails) {
     memories[index] = {
@@ -154,6 +160,7 @@ function editMemory(index) {
       topic: newTopic,
       category: newCategory,
       details: newDetails,
+      tags: newTags.split(",").map(tag => tag.trim()), // Update tags
     };
 
     saveMemories();
@@ -177,7 +184,8 @@ searchBar.addEventListener("input", function () {
   const searchTerm = searchBar.value.toLowerCase();
   const filteredMemories = memories.filter((memory) =>
     memory.topic.toLowerCase().includes(searchTerm) ||
-    memory.details.toLowerCase().includes(searchTerm)
+    memory.details.toLowerCase().includes(searchTerm) ||
+    memory.tags.some(tag => tag.toLowerCase().includes(searchTerm)) // Search in tags
   );
   displayMemories(filteredMemories);
 });
@@ -200,7 +208,8 @@ if ('webkitSpeechRecognition' in window) {
     searchBar.value = searchTerm;
     const filteredMemories = memories.filter((memory) =>
       memory.topic.toLowerCase().includes(searchTerm) ||
-      memory.details.toLowerCase().includes(searchTerm)
+      memory.details.toLowerCase().includes(searchTerm) ||
+      memory.tags.some(tag => tag.toLowerCase().includes(searchTerm)) // Voice search in tags
     );
     displayMemories(filteredMemories);
     // Voice feedback on search results
