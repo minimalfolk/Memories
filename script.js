@@ -1,245 +1,133 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const memoryListContainer = document.getElementById('memory-list-container');
-    const memoryForm = document.getElementById('memory-form');
-    const searchBar = document.getElementById('search-memories');
-    const voiceSearchBtn = document.getElementById('voice-search-btn');
-    const bestMemoryList = document.getElementById("best-memory-list");
-    const noBestMemoriesMsg = document.getElementById("no-best-memories-msg");
+// Utility functions
+function getMemories() {
+  try {
+    const compressed = localStorage.getItem('memories');
+    return compressed ? JSON.parse(LZString.decompress(compressed)) : [];
+  } catch (e) {
+    console.error("Error retrieving memories from localStorage:", e);
+    return [];
+  }
+}
 
-    // Load memories from localStorage with decompression if needed
-    let memories = loadMemories();
+function saveMemories(memories) {
+  try {
+    const compressed = LZString.compress(JSON.stringify(memories));
+    localStorage.setItem('memories', compressed);
+  } catch (e) {
+    console.error("Error saving memories to localStorage:", e);
+  }
+}
 
-    // Display memories function
-    function displayMemories(filteredMemories = memories) {
-        memoryListContainer.innerHTML = '';
-        if (filteredMemories.length === 0) {
-            memoryListContainer.innerHTML = '<p>No memories found. Start by adding your first memory!</p>';
-        } else {
-            filteredMemories.forEach(memory => {
-                const memoryCard = document.createElement('div');
-                memoryCard.classList.add('memory-card', memory.favorite ? 'favorite' : '');
-                memoryCard.style.borderLeft = `5px solid ${getCategoryColor(memory.category)}`;
+// Infinite scrolling variables
+let currentIndex = 0;
+const batchSize = 10;
 
-                memoryCard.innerHTML = `
-                    <div class="memory-header">
-                        <span class="category">${memory.category}</span>
-                        <span class="date">${memory.date}</span>
-                    </div>
-                    <h3 class="memory-topic">${memory.topic}</h3>
-                    <p class="memory-text">${memory.details}</p>
-                    <div class="memory-actions">
-                        <button class="edit-button" onclick="openModal(true, '${memory.id}')">✏️</button>
-                        <button class="delete-button" onclick="deleteMemory('${memory.id}')">❌</button>
-                        <button class="favorite-button" onclick="toggleFavorite('${memory.id}')">
-                            ${memory.favorite ? '⭐' : '☆'}
-                        </button>
-                    </div>
-                    <button class="view-more" onclick="toggleMemoryDetails(this)">View More</button>
-                `;
-                memoryListContainer.appendChild(memoryCard);
-            });
-        }
+// Show and hide spinner for loading
+function showSpinner() {
+  document.getElementById('loading-spinner').classList.remove('hidden');
+}
+
+function hideSpinner() {
+  document.getElementById('loading-spinner').classList.add('hidden');
+}
+
+// Render memories with infinite scrolling
+function renderMemories(containerId, filterFn = () => true) {
+  showSpinner();
+  setTimeout(() => {  // Simulating async loading
+    const container = document.getElementById(containerId);
+    const allMemories = getMemories().filter(filterFn);
+    const memories = allMemories.slice(currentIndex, currentIndex + batchSize);
+    currentIndex += batchSize;
+
+    if (memories.length === 0 && containerId === 'memory-list-container') {
+      document.getElementById('no-memories-msg').classList.remove('hidden');
     }
 
-    // Load memories from localStorage with decompression if needed
-    function loadMemories() {
-        let compressedMemories = localStorage.getItem('memories');
-        if (compressedMemories) {
-            return decompressData(compressedMemories); // Decompress if data exists
-        }
-        return [
-            { id: "1", category: "Personal", date: "2025-01-20", topic: "Graduation Day", details: "The day I graduated college!", favorite: false },
-            { id: "2", category: "Family", date: "2025-01-21", topic: "Family Trip", details: "Our amazing trip to the mountains!", favorite: true }
-        ];
-    }
+    memories.forEach(memory => {
+      const memoryCard = document.createElement('div');
+      memoryCard.className = 'memory-card';
+      memoryCard.innerHTML = `
+        <h3>${memory.topic}</h3>
+        <p>${memory.details}</p>
+        <div class="options">
+          <button onclick="openMemoryOptions('${memory.id}')">⋮</button>
+        </div>
+      `;
+      container.appendChild(memoryCard);
+    });
 
-    // Save memories to localStorage with compression
-    function saveMemories() {
-        const compressedData = compressData(memories); // Compress before saving
-        localStorage.setItem('memories', compressedData);
-    }
+    hideSpinner();
+  }, 500);  // Simulating a delay (remove or adjust based on your actual data fetch)
+}
 
-    // Compression function
-    function compressData(data) {
-        return JSON.stringify(data); // Add actual compression logic if needed
-    }
+// Open memory options modal for editing
+function openMemoryOptions(memoryId) {
+  // Show edit and favorite options
+  const memory = getMemories().find(m => m.id === memoryId);
+  if (memory) {
+    openAddMemoryModal(memory);  // Reuse the Add Memory modal to edit memory
+    document.getElementById('modal-title').textContent = 'Edit Memory';
+    document.getElementById('memory-category').value = memory.category;
+    document.getElementById('memory-topic').value = memory.topic;
+    document.getElementById('memory-details').value = memory.details;
+    document.getElementById('memory-tags').value = memory.tags.join(', ');
+    document.getElementById('save-button').onclick = () => updateMemory(memory.id);
+  }
+}
 
-    // Decompression function
-    function decompressData(data) {
-        return JSON.parse(data); // Add decompression logic if data is compressed
-    }
+// Update existing memory
+function updateMemory(memoryId) {
+  const memories = getMemories();
+  const memory = memories.find(m => m.id === memoryId);
+  if (memory) {
+    memory.category = document.getElementById('memory-category').value;
+    memory.topic = document.getElementById('memory-topic').value;
+    memory.details = document.getElementById('memory-details').value;
+    memory.tags = document.getElementById('memory-tags').value.split(',').map(tag => tag.trim());
+    saveMemories(memories);
+    renderMemories('memory-list-container');
+    closeModal();
+  }
+}
 
-    // Get category color
-    function getCategoryColor(category) {
-        const colors = {
-            Personal: "blue",
-            Family: "skyblue",
-            Achievement: "yellow",
-            Relationship: "lightcoral",
-            Friends: "green",
-        };
-        return colors[category] || "gray";
-    }
-
-    function openModal(edit = false, memoryId = null) {
-    const modal = document.getElementById('memory-modal');
-    modal.classList.remove('hidden');
-
-    if (edit && memoryId) {
-        const memory = memories.find((m) => m.id === memoryId);
-        document.getElementById('memory-category').value = memory.category;
-        document.getElementById('memory-topic').value = memory.topic;
-        document.getElementById('memory-details').value = memory.details;
-    } else {
-        document.getElementById('memory-form').reset();
-    }
+// Open modal for adding a memory (or editing an existing one)
+function openAddMemoryModal(memory = null) {
+  document.getElementById('memory-modal').classList.remove('hidden');
+  if (memory) {
+    document.getElementById('modal-title').textContent = 'Edit Memory';
+    document.getElementById('memory-category').value = memory.category;
+    document.getElementById('memory-topic').value = memory.topic;
+    document.getElementById('memory-details').value = memory.details;
+    document.getElementById('memory-tags').value = memory.tags.join(', ');
+  } else {
+    document.getElementById('modal-title').textContent = 'Add Memory';
+  }
 }
 
 function closeModal() {
-    const modal = document.getElementById('memory-modal');
-    modal.classList.add('hidden');
+  document.getElementById('memory-modal').classList.add('hidden');
 }
 
-    // Toggle memory details (expand/collapse animation)
-    window.toggleMemoryDetails = function (btn) {
-        const card = btn.closest('.memory-card');
-        card.classList.toggle("expanded");
-        if (card.classList.contains("expanded")) {
-            btn.textContent = "View Less";
-        } else {
-            btn.textContent = "View More";
-        }
-    }
-
-    // Filter memories
-    window.filterMemories = function () {
-        const query = searchBar.value.toLowerCase();
-        const filtered = memories.filter(memory =>
-            memory.topic.toLowerCase().includes(query) ||
-            memory.details.toLowerCase().includes(query) ||
-            memory.category.toLowerCase().includes(query)
-        );
-        displayMemories(filtered);
-    };
-
-    // Reset search
-    window.resetSearch = function () {
-        searchBar.value = '';
-        displayMemories();
-    };
-
-    // Sort memories
-    window.sortMemories = function () {
-        const sortOption = document.getElementById('sort-memories').value;
-        if (sortOption === 'date') memories.sort((a, b) => new Date(b.date) - new Date(a.date));
-        if (sortOption === 'category') memories.sort((a, b) => a.category.localeCompare(b.category));
-        if (sortOption === 'favorite') memories.sort((a, b) => b.favorite - a.favorite);
-        displayMemories();
-    };
-
-    // Toggle favorite filter
-    window.toggleFavoriteFilter = function () {
-        showFavorites = !showFavorites;
-        document.getElementById('filter-favorites').textContent = showFavorites ? 'Show All' : 'Show Favorites';
-        const filtered = showFavorites ? memories.filter(m => m.favorite) : memories;
-        displayMemories(filtered);
-    };
-
-    // Add a new memory
-    memoryForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        const category = document.getElementById("memory-category").value;
-        const topic = document.getElementById("memory-topic").value;
-        const details = document.getElementById("memory-details").value;
-
-        const newMemory = {
-            id: `${memories.length + 1}`,
-            category,
-            topic,
-            details,
-            date: new Date().toLocaleString(),
-            favorite: false
-        };
-
-        memories.push(newMemory);
-        saveMemories();
-        memoryForm.reset();
-        displayMemories();
-    });
-
-    // Toggle favorite status
-   window.toggleFavorite = function (id) {
-    const memory = memories.find((m) => m.id === id);
-    memory.favorite = !memory.favorite;
-    saveMemories();
-    displayMemories();
-};
-
-    // Edit a memory
-    window.editMemory = function (id) {
-        const memory = memories.find(memory => memory.id === id);
-        const newTopic = prompt("Enter new memory topic:", memory.topic);
-        const newCategory = prompt("Enter new category:", memory.category);
-        const newDetails = prompt("Enter new details:", memory.details);
-
-        if (newTopic && newCategory && newDetails) {
-            memory.topic = newTopic;
-            memory.category = newCategory;
-            memory.details = newDetails;
-            saveMemories();
-            displayMemories();
-        }
-    };
-
-    // Delete a memory
-    window.deleteMemory = function (id) {
-        memories = memories.filter(memory => memory.id !== id);
-        saveMemories(); // Update localStorage
-        displayMemories();
-    };
-
-    // Display best memories (Favorites) on index.html
-    const displayBestMemories = () => {
-        bestMemoryList.innerHTML = ""; // Clear best memories
-        const favoriteMemories = memories.filter((memory) => memory.favorite);
-
-        if (favoriteMemories.length === 0) {
-            bestMemoryList.style.display = "none";
-            noBestMemoriesMsg.style.display = "block";
-        } else {
-            noBestMemoriesMsg.style.display = "none";
-            bestMemoryList.style.display = "block";
-
-            favoriteMemories.forEach((memory) => {
-                const memoryItem = document.createElement("div");
-                memoryItem.classList.add("memory-item");
-                memoryItem.style.borderLeft = `5px solid ${getCategoryColor(memory.category)}`;
-
-                memoryItem.innerHTML = `
-                    <h4>${memory.topic}</h4>
-                    <p class="category">${memory.category}</p>
-                    <p class="memory-text">${memory.details}</p>
-                    <small>${memory.date}</small>
-                `;
-
-                bestMemoryList.appendChild(memoryItem);
-            });
-        }
-    };
-
-    // Initialize the display when the page loads
-    window.onload = () => {
-    memories = loadMemories();
-    displayMemories(); // Ensure all memories are shown on page load
-    };
-
-        }
-        if (bestMemoryList) {
-            displayBestMemories(); // Display best memories (favorites)
-        }
-    };
-
-    // Initial display of memories
-    displayMemories();
+// Error handling: Check for corrupted data
+window.addEventListener('error', (e) => {
+  console.error("An unexpected error occurred: ", e.message);
+  alert("An error occurred, please reload the page.");
 });
+
+// Infinite scroll event
+function initInfiniteScroll(containerId) {
+  window.onscroll = () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      renderMemories(containerId);
+    }
+  };
+}
+
+// Initialize the page
+function initPage() {
+  renderMemories('memory-list-container');
+  initInfiniteScroll('memory-list-container');
+}
+
+document.addEventListener('DOMContentLoaded', initPage);
