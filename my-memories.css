@@ -76,6 +76,13 @@ header .search-container button:hover {
   justify-content: flex-end;
 }
 
+/* Search Sort Container */
+.search-sort-container {
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+
 .sorting-filters select,
 .sorting-filters button {
   padding: 10px;
