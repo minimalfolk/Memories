@@ -12,11 +12,13 @@
   <header>
     <div class="header-container">
       <a href="index.html" style="text-decoration: none; color: inherit;">
-        <div class="logo">Memory Jar</div>
+        <div class="logo">
+          <span class="jar-icon">🍯</span> <!-- Jar icon for better UX -->
+          <span class="logo-text">Memory Jar</span>
+        </div>
       </a>
       <div class="header-actions">
         <a href="my-memories.html" class="my-memories-link">My Memories</a>
-        <a href="add-memory.html" class="add-memory-link">Add Memory</a>
       </div>
     </div>
   </header>
@@ -41,8 +43,8 @@
         <label for="memory-details">Details</label>
         <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
 
-        <label for="memory-tags">Tags (optional)</label>
-        <input type="text" id="memory-tags" placeholder="Add tags (e.g., joy, family, trip)">
+        <label for="memory-tags">Tags (optional, comma separated)</label>
+        <input type="text" id="memory-tags" placeholder="e.g., joy, family, vacation">
 
         <button type="submit" class="submit-button">Add Memory</button>
       </form>
@@ -53,9 +55,9 @@
       <div id="memory-list"></div>
     </section>
 
-    <section id="best-memory-list">
+    <section id="best-memories-container">
       <h2>Best Memories</h2>
-      <div id="best-memory-list-container"></div>
+      <div id="best-memory-list"></div>
     </section>
   </main>
 
@@ -79,7 +81,7 @@
     </div>
   </footer>
 
-  <!-- Add the script tag to include the script.js file -->
-  <script src="script.js" defer></script>
+  <!-- Include the script file for the page functionality -->
+  <script src="script.js"></script>
 </body>
 </html>
