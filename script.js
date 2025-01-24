@@ -1,4 +1,4 @@
-// Utility functions
+// Utility functions for memory management
 function getMemories() {
   try {
     const compressed = localStorage.getItem('memories');
@@ -23,33 +23,33 @@ let currentIndex = 0;
 const batchSize = 10;
 let isDataLoading = false;
 
-// Show and hide spinner for loading
+// Show and hide skeleton for loading state
 function showSkeleton() {
-  document.getElementById('memory-list-container').innerHTML = "<div class='skeleton-loader'></div>"; // Add skeleton loader while loading data
+  document.getElementById('memory-list-container').innerHTML = "<div class='skeleton-loader'></div>"; // Add skeleton loader
 }
 
 function showSpinner() {
-  document.getElementById('loading-spinner').classList.remove('hidden');
+  document.getElementById('loading-spinner').classList.remove('hidden'); // Show spinner while loading
 }
 
 function hideSpinner() {
-  document.getElementById('loading-spinner').classList.add('hidden');
+  document.getElementById('loading-spinner').classList.add('hidden'); // Hide spinner when done
 }
 
 // Render memories with infinite scrolling
 function renderMemories(containerId, filterFn = () => true) {
-  if (isDataLoading) return;
-  showSkeleton();  // Show loading skeleton while fetching data
+  if (isDataLoading) return;  // Prevent multiple simultaneous requests
+  showSkeleton();  // Show loading skeleton
   isDataLoading = true;
 
   setTimeout(() => {
     const container = document.getElementById(containerId);
-    const allMemories = getMemories().filter(filterFn);
-    const memories = allMemories.slice(currentIndex, currentIndex + batchSize);
+    const allMemories = getMemories().filter(filterFn);  // Filter memories based on the provided filter function
+    const memories = allMemories.slice(currentIndex, currentIndex + batchSize);  // Slice memories for batch loading
     currentIndex += batchSize;
 
     if (memories.length === 0 && containerId === 'memory-list-container') {
-      document.getElementById('no-memories-msg').classList.remove('hidden');
+      document.getElementById('no-memories-msg').classList.remove('hidden'); // Show "No memories" message if no memories are found
     }
 
     memories.forEach(memory => {
@@ -66,15 +66,15 @@ function renderMemories(containerId, filterFn = () => true) {
     });
 
     isDataLoading = false;
-    hideSpinner();  // Hide loading spinner once data is rendered
-  }, 500);  // Simulating async loading, adjust or remove the delay as needed
+    hideSpinner();  // Hide spinner when data is rendered
+  }, 500);  // Simulated async loading delay
 }
 
 // Open memory options modal for editing
 function openMemoryOptions(memoryId) {
   const memory = getMemories().find(m => m.id === memoryId);
   if (memory) {
-    openAddMemoryModal(memory);  // Reuse the Add Memory modal to edit memory
+    openAddMemoryModal(memory);  // Reuse modal to edit memory
     document.getElementById('modal-title').textContent = 'Edit Memory';
     document.getElementById('memory-category').value = memory.category;
     document.getElementById('memory-topic').value = memory.topic;
@@ -93,8 +93,8 @@ function updateMemory(memoryId) {
     memory.topic = document.getElementById('memory-topic').value;
     memory.details = document.getElementById('memory-details').value;
     memory.tags = document.getElementById('memory-tags').value.split(',').map(tag => tag.trim());
-    saveMemories(memories);
-    renderMemories('memory-list-container');
+    saveMemories(memories);  // Save updated memories
+    renderMemories('memory-list-container');  // Re-render memory list
     closeModal();
   }
 }
@@ -127,23 +127,23 @@ window.addEventListener('error', (e) => {
 function initInfiniteScroll(containerId) {
   window.onscroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-      renderMemories(containerId);
+      renderMemories(containerId);  // Load more memories when scrolling to the bottom
     }
   };
 }
 
 // Initialize the page
 function initPage() {
-  renderMemories('memory-list-container');
-  initInfiniteScroll('memory-list-container');
+  renderMemories('memory-list-container');  // Initial rendering of memories
+  initInfiniteScroll('memory-list-container');  // Set up infinite scrolling
 }
 
 document.addEventListener('DOMContentLoaded', initPage);
 
 // Filter memories by tags (live search)
 function filterMemories() {
-  const query = document.getElementById('search-memories').value.toLowerCase();
-  const tag = document.getElementById('filter-tags').value.toLowerCase();
+  const query = document.getElementById('search-memories').value.toLowerCase();  // Get search query
+  const tag = document.getElementById('filter-tags').value.toLowerCase();  // Get selected tag filter
   const memories = getMemories().filter(memory =>
     memory.topic.toLowerCase().includes(query) || memory.details.toLowerCase().includes(query)
   );
@@ -155,3 +155,8 @@ function filterMemories() {
 // Add event listener to filter memories on tag selection or search input change
 document.getElementById('search-memories').addEventListener('input', filterMemories);
 document.getElementById('filter-tags').addEventListener('change', filterMemories);
+
+// Show and hide skeleton loader for tag-based filtering
+function showSkeletonLoaderForFilter() {
+  document.getElementById('memory-list-container').innerHTML = "<div class='skeleton-loader'></div>";
+}
