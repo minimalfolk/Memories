@@ -26,10 +26,39 @@
   <main>
     <section id="best-memories">
       <h2>Best Memories</h2>
-      <p id="no-best-memories-msg">No favorite memories yet.</p>
+      <p id="no-best-memories-msg" class="hidden">No favorite memories yet.</p>
       <div id="best-memory-list" class="memory-container"></div>
     </section>
+
+    <!-- Memory list section -->
+    <section id="memory-list-section">
+      <h2>All Memories</h2>
+      <input type="text" id="search-memories" placeholder="Search memories..." class="search-input">
+      <select id="filter-tags" class="filter-select">
+        <option value="">Filter by tag...</option>
+        <!-- Dynamically populate with available tags -->
+      </select>
+      <p id="no-memories-msg" class="hidden">No memories found.</p>
+      <div id="memory-list-container" class="memory-container"></div>
+    </section>
   </main>
+
+  <!-- Memory Modal (Add/Edit Memory) -->
+  <div id="memory-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="modal-title">Add Memory</h3>
+      <label for="memory-category">Category:</label>
+      <input type="text" id="memory-category" placeholder="Memory category">
+      <label for="memory-topic">Topic:</label>
+      <input type="text" id="memory-topic" placeholder="Memory topic">
+      <label for="memory-details">Details:</label>
+      <textarea id="memory-details" placeholder="Memory details"></textarea>
+      <label for="memory-tags">Tags:</label>
+      <input type="text" id="memory-tags" placeholder="Comma-separated tags">
+      <button id="save-button">Save</button>
+      <button onclick="closeModal()">Close</button>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer>
@@ -50,7 +79,18 @@
       ©2025 Memory Jar.
     </div>
   </footer>
+
+  <!-- Loading Spinner (Initially hidden) -->
   <div id="loading-spinner" class="hidden">Loading...</div>
+  
+  <!-- Skeleton loader (Initially hidden, dynamically added in script) -->
+  <div id="skeleton-loader" class="hidden">
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+    <div class="skeleton-card"></div>
+  </div>
+
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
   <script src="script.js"></script>
 </body>
