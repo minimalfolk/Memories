@@ -1,16 +1,20 @@
 // Initialize memory list from localStorage (if any)
-let memories = JSON.parse(localStorage.getItem("memories")) || [];
+let memories = JSON.parse(LZString.decompressFromUTF16(localStorage.getItem("memories"))) || [];
 
-// DOM elements
+// DOM elements for my-memories.html
 const memoryForm = document.getElementById("memory-form");
 const memoryListContainer = document.getElementById("memory-list");
-const bestMemoryList = document.getElementById("best-memory-list");
 const searchBar = document.getElementById("search-bar");
 const voiceSearchBtn = document.getElementById("voice-search-btn");
 
-// Function to save memories to localStorage
+// DOM elements for index.html
+const bestMemoryList = document.getElementById("best-memory-list");
+const noBestMemoriesMsg = document.getElementById("no-best-memories-msg");
+
+// Function to save memories to localStorage with compression
 const saveMemories = () => {
-  localStorage.setItem("memories", JSON.stringify(memories));
+  const compressedData = LZString.compressToUTF16(JSON.stringify(memories)); // Compress data before saving
+  localStorage.setItem("memories", compressedData);
 };
 
 // Function to get category color
@@ -25,7 +29,7 @@ const getCategoryColor = (category) => {
   return colors[category] || "gray";
 };
 
-// Function to display all memories
+// Function to display all memories (for my-memories.html)
 const displayMemories = (filteredMemories = memories) => {
   memoryListContainer.innerHTML = ""; // Clear existing memories
 
@@ -81,31 +85,33 @@ const displayMemories = (filteredMemories = memories) => {
   });
 };
 
-// Function to display best memories (Favorites)
+// Function to display best memories (Favorites) on index.html
 const displayBestMemories = () => {
   bestMemoryList.innerHTML = ""; // Clear best memories
-
   const favoriteMemories = memories.filter((memory) => memory.favorite);
 
   if (favoriteMemories.length === 0) {
-    bestMemoryList.innerHTML = "<p>No favorite memories found.</p>";
-    return;
+    bestMemoryList.style.display = "none";
+    noBestMemoriesMsg.style.display = "block";
+  } else {
+    noBestMemoriesMsg.style.display = "none";
+    bestMemoryList.style.display = "block";
+
+    favoriteMemories.forEach((memory) => {
+      const memoryItem = document.createElement("div");
+      memoryItem.classList.add("memory-item");
+      memoryItem.style.borderLeft = `5px solid ${getCategoryColor(memory.category)}`;
+
+      memoryItem.innerHTML = `
+        <h4>${memory.topic}</h4>
+        <p class="category">${memory.category}</p>
+        <p class="memory-text">${memory.details}</p>
+        <small>${memory.date}</small>
+      `;
+
+      bestMemoryList.appendChild(memoryItem);
+    });
   }
-
-  favoriteMemories.forEach((memory) => {
-    const memoryItem = document.createElement("div");
-    memoryItem.classList.add("memory-item");
-    memoryItem.style.borderLeft = `5px solid ${getCategoryColor(memory.category)}`;
-
-    memoryItem.innerHTML = `
-      <h4>${memory.topic}</h4>
-      <p class="category">${memory.category}</p>
-      <p class="memory-text">${memory.details}</p>
-      <small>${memory.date}</small>
-    `;
-
-    bestMemoryList.appendChild(memoryItem);
-  });
 };
 
 // Add a new memory
@@ -152,13 +158,13 @@ const editMemory = (index) => {
 
   if (newTopic && newCategory && newDetails) {
     memories[index] = {
-      ...memory,
+      ...memories[index],
       topic: newTopic,
       category: newCategory,
       details: newDetails,
       tags: newTags.split(",").map((tag) => tag.trim()),
+      color: getCategoryColor(newCategory),
     };
-
     saveMemories();
     displayMemories();
     displayBestMemories();
@@ -175,40 +181,14 @@ const deleteMemory = (index) => {
   }
 };
 
-// Search function
-searchBar.addEventListener("input", () => {
-  const searchTerm = searchBar.value.toLowerCase();
-  const filteredMemories = memories.filter(
-    (memory) =>
-      memory.topic.toLowerCase().includes(searchTerm) ||
-      memory.details.toLowerCase().includes(searchTerm) ||
-      memory.tags.some((tag) => tag.toLowerCase().includes(searchTerm))
-  );
-  displayMemories(filteredMemories);
-});
-
-// Voice Search functionality
-if ("webkitSpeechRecognition" in window) {
-  const recognition = new webkitSpeechRecognition();
-  recognition.continuous = false;
-  recognition.lang = "en-US";
-
-  recognition.onresult = (event) => {
-    const searchTerm = event.results[0][0].transcript.toLowerCase();
-    searchBar.value = searchTerm;
-    searchBar.dispatchEvent(new Event("input"));
-    const speechSynthesis = window.speechSynthesis;
-    const searchFeedback = new SpeechSynthesisUtterance(`Found ${memories.length} memories`);
-    speechSynthesis.speak(searchFeedback);
-  };
-
-  voiceSearchBtn.addEventListener("click", () => {
-    recognition.start();
-  });
-}
-
-// Display stored memories and best memories on page load
-document.addEventListener("DOMContentLoaded", () => {
-  displayMemories();
-  displayBestMemories();
-});
+// Initialize the display when the page loads
+window.onload = () => {
+  if (memoryListContainer) {
+    // If on my-memories.html
+    displayMemories(); // Display all memories
+  }
+  if (bestMemoryList) {
+    // If on index.html
+    displayBestMemories(); // Display best memories (favorites)
+  }
+};
