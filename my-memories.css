@@ -18,7 +18,7 @@ header {
   align-items: center;
   background-color: #007bff;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 20px; /* Reduced padding for a more compact header */
   position: sticky;
   top: 0;
   z-index: 10;
@@ -26,33 +26,15 @@ header {
   box-sizing: border-box;
 }
 
-header .back-button {
-  font-size: 1em;
-  color: white;
-  background-color: #0056b3;
-  border: none;
-  padding: 5px 12px;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-header .back-button:hover {
-  background-color: #004085;
-}
-
 header .logo {
-  font-size: 1.4em;
-  font-weight: 600;
-  display: flex;
-  align-items: center;
+  font-size: 1.2em; /* Slightly reduced logo font size for better balance */
 }
 
 header .search-container {
   display: flex;
   gap: 10px;
-  width: 40%;
+  align-items: center;
+  width: 50%; /* Adjusted for better alignment */
 }
 
 header .search-container input {
@@ -89,10 +71,9 @@ header .search-container button:hover {
 .sorting-filters {
   display: flex;
   gap: 10px;
-  justify-content: space-between;
   align-items: center;
-  margin: 20px auto;
-  max-width: 80%;
+  width: 40%;
+  justify-content: flex-end;
 }
 
 .sorting-filters select,
@@ -130,13 +111,13 @@ header .search-container button:hover {
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin: 15px 0;
-  padding: 20px;
+  margin: 10px 0; /* Reduced margin for compact display */
+  padding: 15px; /* Reduced padding for compact memory card */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   max-width: 100%;
   word-wrap: break-word;
-  max-height: 250px; /* Limit height */
+  max-height: 180px; /* Reduced max-height for a smaller card */
   overflow: hidden; /* Hide overflowed content */
 }
 
@@ -348,58 +329,39 @@ footer .social-media img {
   border-radius: 50%;
   width: 50px;
   height: 50px;
-  animation: spin 2s linear infinite;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* Animations */
-@keyframes slideIn {
-  from {
-    transform: translateX(-100%);
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
   }
-  to {
-    transform: translateX(0);
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
   }
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Animating the memory card expansion */
-.memory-card .view-more {
-  transition: color 0.3s ease;
-}
-
-.memory-card.expanded .view-more {
-  color: #d9534f;
-}
-
-.memory-card .view-more:hover {
-  color: #007bff;
-}
-
-/* Media Queries */
+/* Media Queries for Responsive Design */
 @media (max-width: 768px) {
+  header .search-container {
+    width: 70%;
+  }
+
   .sorting-filters {
-    flex-direction: column;
+    width: 60%;
+  }
+
+  #memory-list-container {
+    padding: 10px;
   }
 
   .memory-card {
-    padding: 15px;
+    padding: 10px;
+    max-height: 150px;
   }
 
-  header .search-container {
-    width: 80%;
+  .memory-card h3.memory-topic {
+    font-size: 1em;
   }
 
   footer .footer-links {
@@ -409,32 +371,44 @@ footer .social-media img {
   footer .social-media img {
     width: 20px;
   }
+
+  .fab {
+    bottom: 10px;
+    right: 10px;
+  }
 }
 
 @media (max-width: 480px) {
-  header .logo {
-    font-size: 1.2em;
+  header .search-container {
+    width: 80%;
   }
 
-  .memory-card .memory-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .sorting-filters {
+    width: 100%;
+    justify-content: space-between;
   }
 
-  .memory-card .category,
-  .memory-card .date {
-    font-size: 0.8em;
+  .memory-card {
+    padding: 8px;
+    max-height: 120px;
   }
 
-  header .search-container input {
-    width: 70%;
+  .memory-card h3.memory-topic {
+    font-size: 0.9em;
   }
 
   footer .footer-links {
-    margin-bottom: 15px;
+    flex-direction: column;
   }
 
   footer .social-media img {
     width: 18px;
   }
-  }  
+
+  .fab {
+    bottom: 10px;
+    right: 10px;
+    padding: 12px;
+    font-size: 1.3em;
+  }
+}
