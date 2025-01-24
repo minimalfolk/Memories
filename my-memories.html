@@ -58,6 +58,15 @@
     </div>
   </div>
 
+  <!-- Confirmation Modal for Favorite/Unfavorite -->
+  <div id="favorite-confirmation-modal" class="modal hidden">
+    <div class="modal-content">
+      <p id="favorite-message"></p>
+      <button id="confirm-favorite" onclick="confirmFavorite()">Yes</button>
+      <button id="cancel-favorite" onclick="closeFavoriteModal()">No</button>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer>
     <div class="footer-links">
@@ -87,6 +96,7 @@
         { id: "2", category: "Family", date: "2025-01-21", topic: "Family Trip", details: "Our amazing trip to the mountains!", favorite: true }
       ];
       let showFavorites = false;
+      let memoryToToggleFavorite = null;
 
       // Display memories function
       function displayMemories(filteredMemories = memories) {
@@ -191,9 +201,30 @@
       // Toggle favorite
       window.toggleFavorite = function(id) {
         const memory = memories.find(memory => memory.id === id);
-        memory.favorite = !memory.favorite;
+        memoryToToggleFavorite = memory.id;  // Save the memory that will be toggled
+
+        // Set the appropriate message based on the favorite status
+        const favoriteMessage = memory.favorite 
+          ? 'Do you want to remove this memory from favorites?'
+          : 'Do you want to add this memory to favorites?';
+
+        // Show the confirmation modal
+        document.getElementById('favorite-message').textContent = favoriteMessage;
+        document.getElementById('favorite-confirmation-modal').classList.remove('hidden');
+      };
+
+      // Confirm favorite action
+      window.confirmFavorite = function() {
+        const memory = memories.find(m => m.id === memoryToToggleFavorite);
+        memory.favorite = !memory.favorite; // Toggle favorite
         localStorage.setItem('memories', JSON.stringify(memories));
-        displayMemories();
+        displayMemories(); // Re-render memories list
+        closeFavoriteModal(); // Close confirmation modal
+      };
+
+      // Close the favorite confirmation modal
+      window.closeFavoriteModal = function() {
+        document.getElementById('favorite-confirmation-modal').classList.add('hidden');
       };
     });
   </script>
