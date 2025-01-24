@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const memoryListContainer = document.getElementById('memory-list');
+    const memoryListContainer = document.getElementById('memory-list-container');
     const memoryForm = document.getElementById('memory-form');
     const searchBar = document.getElementById('search-memories');
     const voiceSearchBtn = document.getElementById('voice-search-btn');
@@ -81,6 +81,25 @@ document.addEventListener('DOMContentLoaded', function () {
         return colors[category] || "gray";
     }
 
+    function openModal(edit = false, memoryId = null) {
+    const modal = document.getElementById('memory-modal');
+    modal.classList.remove('hidden');
+
+    if (edit && memoryId) {
+        const memory = memories.find((m) => m.id === memoryId);
+        document.getElementById('memory-category').value = memory.category;
+        document.getElementById('memory-topic').value = memory.topic;
+        document.getElementById('memory-details').value = memory.details;
+    } else {
+        document.getElementById('memory-form').reset();
+    }
+}
+
+function closeModal() {
+    const modal = document.getElementById('memory-modal');
+    modal.classList.add('hidden');
+}
+
     // Toggle memory details (expand/collapse animation)
     window.toggleMemoryDetails = function (btn) {
         const card = btn.closest('.memory-card');
@@ -150,12 +169,12 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // Toggle favorite status
-    window.toggleFavorite = function (id) {
-        const memory = memories.find(memory => memory.id === id);
-        memory.favorite = !memory.favorite; // Toggle favorite
-        saveMemories(); // Update localStorage
-        displayMemories(); // Re-render memories list
-    };
+   window.toggleFavorite = function (id) {
+    const memory = memories.find((m) => m.id === id);
+    memory.favorite = !memory.favorite;
+    saveMemories();
+    displayMemories();
+};
 
     // Edit a memory
     window.editMemory = function (id) {
@@ -211,8 +230,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Initialize the display when the page loads
     window.onload = () => {
-        if (memoryListContainer) {
-            displayMemories(); // Display all memories
+    memories = loadMemories();
+    displayMemories(); // Ensure all memories are shown on page load
+    };
+
         }
         if (bestMemoryList) {
             displayBestMemories(); // Display best memories (favorites)
