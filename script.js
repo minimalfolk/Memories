@@ -9,30 +9,24 @@ const searchBar = document.getElementById("search-bar");
 const voiceSearchBtn = document.getElementById("voice-search-btn");
 
 // Function to save memories to localStorage
-function saveMemories() {
+const saveMemories = () => {
   localStorage.setItem("memories", JSON.stringify(memories));
-}
+};
 
 // Function to get category color
-function getCategoryColor(category) {
-  switch (category) {
-    case "Personal":
-      return "blue";
-    case "Family":
-      return "skyblue";
-    case "Achievement":
-      return "yellow";
-    case "Relationship":
-      return "lightcoral";
-    case "Friends":
-      return "green"; // New color for Friends category
-    default:
-      return "gray";
-  }
-}
+const getCategoryColor = (category) => {
+  const colors = {
+    Personal: "blue",
+    Family: "skyblue",
+    Achievement: "yellow",
+    Relationship: "lightcoral",
+    Friends: "green",
+  };
+  return colors[category] || "gray";
+};
 
 // Function to display all memories
-function displayMemories(filteredMemories = memories) {
+const displayMemories = (filteredMemories = memories) => {
   memoryListContainer.innerHTML = ""; // Clear existing memories
 
   if (filteredMemories.length === 0) {
@@ -53,11 +47,13 @@ function displayMemories(filteredMemories = memories) {
         <button class="view-more">View More</button>
       </div>
       <small>${memory.date}</small>
-      <button class="favorite-button" onclick="toggleFavorite(${index})">
-        ${memory.favorite ? "Unfavorite" : "Favorite"}
-      </button>
-      <button class="edit-button" onclick="editMemory(${index})">Edit</button>
-      <button class="delete-button" onclick="deleteMemory(${index})">Delete</button>
+      <div class="memory-actions">
+        <button class="favorite-button" onclick="toggleFavorite(${index})">
+          ${memory.favorite ? "Unfavorite" : "Favorite"}
+        </button>
+        <button class="edit-button" onclick="editMemory(${index})">Edit</button>
+        <button class="delete-button" onclick="deleteMemory(${index})">Delete</button>
+      </div>
     `;
 
     const viewMoreButton = memoryCard.querySelector(".view-more");
@@ -83,10 +79,10 @@ function displayMemories(filteredMemories = memories) {
 
     memoryListContainer.appendChild(memoryCard);
   });
-}
+};
 
 // Function to display best memories (Favorites)
-function displayBestMemories() {
+const displayBestMemories = () => {
   bestMemoryList.innerHTML = ""; // Clear best memories
 
   const favoriteMemories = memories.filter((memory) => memory.favorite);
@@ -110,16 +106,16 @@ function displayBestMemories() {
 
     bestMemoryList.appendChild(memoryItem);
   });
-}
+};
 
 // Add a new memory
-memoryForm.addEventListener("submit", function (e) {
+memoryForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const category = document.getElementById("memory-category").value;
   const topic = document.getElementById("memory-topic").value;
   const details = document.getElementById("memory-details").value;
-  const tags = document.getElementById("memory-tags").value.split(",").map(tag => tag.trim()); // New tags feature
+  const tags = document.getElementById("memory-tags").value.split(",").map((tag) => tag.trim());
 
   const newMemory = {
     category,
@@ -139,85 +135,80 @@ memoryForm.addEventListener("submit", function (e) {
 });
 
 // Toggle favorite status
-function toggleFavorite(index) {
+const toggleFavorite = (index) => {
   memories[index].favorite = !memories[index].favorite;
   saveMemories();
   displayMemories();
   displayBestMemories();
-}
+};
 
 // Edit a memory
-function editMemory(index) {
-  const newTopic = prompt("Enter new memory topic:", memories[index].topic);
-  const newCategory = prompt("Enter new category:", memories[index].category);
-  const newDetails = prompt("Enter new details:", memories[index].details);
-  const newTags = prompt("Enter new tags (comma separated):", memories[index].tags.join(","));
+const editMemory = (index) => {
+  const memory = memories[index];
+  const newTopic = prompt("Enter new memory topic:", memory.topic);
+  const newCategory = prompt("Enter new category:", memory.category);
+  const newDetails = prompt("Enter new details:", memory.details);
+  const newTags = prompt("Enter new tags (comma separated):", memory.tags.join(","));
 
   if (newTopic && newCategory && newDetails) {
     memories[index] = {
-      ...memories[index],
+      ...memory,
       topic: newTopic,
       category: newCategory,
       details: newDetails,
-      tags: newTags.split(",").map(tag => tag.trim()), // Update tags
+      tags: newTags.split(",").map((tag) => tag.trim()),
     };
 
     saveMemories();
     displayMemories();
     displayBestMemories();
   }
-}
+};
 
 // Delete a memory
-function deleteMemory(index) {
+const deleteMemory = (index) => {
   if (confirm("Are you sure you want to delete this memory?")) {
     memories.splice(index, 1);
     saveMemories();
     displayMemories();
     displayBestMemories();
   }
-}
+};
 
 // Search function
-searchBar.addEventListener("input", function () {
+searchBar.addEventListener("input", () => {
   const searchTerm = searchBar.value.toLowerCase();
-  const filteredMemories = memories.filter((memory) =>
-    memory.topic.toLowerCase().includes(searchTerm) ||
-    memory.details.toLowerCase().includes(searchTerm) ||
-    memory.tags.some(tag => tag.toLowerCase().includes(searchTerm)) // Search tags too
+  const filteredMemories = memories.filter(
+    (memory) =>
+      memory.topic.toLowerCase().includes(searchTerm) ||
+      memory.details.toLowerCase().includes(searchTerm) ||
+      memory.tags.some((tag) => tag.toLowerCase().includes(searchTerm))
   );
   displayMemories(filteredMemories);
 });
 
-// Display stored memories and best memories on page load
-document.addEventListener("DOMContentLoaded", function () {
-  displayMemories();
-  displayBestMemories();
-});
-
 // Voice Search functionality
-if ('webkitSpeechRecognition' in window) {
+if ("webkitSpeechRecognition" in window) {
   const recognition = new webkitSpeechRecognition();
-  recognition.continuous = true;
-  recognition.interimResults = true;
-  recognition.lang = 'en-US';
+  recognition.continuous = false;
+  recognition.lang = "en-US";
 
-  recognition.onresult = function (event) {
+  recognition.onresult = (event) => {
     const searchTerm = event.results[0][0].transcript.toLowerCase();
     searchBar.value = searchTerm;
-    const filteredMemories = memories.filter((memory) =>
-      memory.topic.toLowerCase().includes(searchTerm) ||
-      memory.details.toLowerCase().includes(searchTerm) ||
-      memory.tags.some(tag => tag.toLowerCase().includes(searchTerm)) // Search tags too
-    );
-    displayMemories(filteredMemories);
-    // Voice feedback on search results
+    searchBar.dispatchEvent(new Event("input"));
     const speechSynthesis = window.speechSynthesis;
-    const searchFeedback = new SpeechSynthesisUtterance(`Found ${filteredMemories.length} memories`);
+    const searchFeedback = new SpeechSynthesisUtterance(`Found ${memories.length} memories`);
     speechSynthesis.speak(searchFeedback);
   };
 
-  voiceSearchBtn.addEventListener("click", function () {
+  voiceSearchBtn.addEventListener("click", () => {
     recognition.start();
   });
 }
+
+// Display stored memories and best memories on page load
+document.addEventListener("DOMContentLoaded", () => {
+  displayMemories();
+  displayBestMemories();
+});
