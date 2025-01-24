@@ -50,7 +50,7 @@ header .logo {
 
 header .search-container {
   position: relative;
-  width: 50%;
+  width: 30%;
 }
 
 header .search-container input {
@@ -145,15 +145,15 @@ header .search-container input:focus {
 }
 
 .memory-card .edit-button {
-  background-color: #ffa500;
+  background-color: #007bff;
 }
 
 .memory-card .delete-button {
-  background-color: #f44336;
+  background-color: #007bff;
 }
 
 .memory-card .favorite-button {
-  background-color: #4caf50;
+  background-color: #007bff;
 }
 
 /* Icons */
