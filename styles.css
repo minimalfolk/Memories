@@ -5,15 +5,21 @@ body {
   padding: 0;
   box-sizing: border-box;
   background-color: #f8f9fa;
+  color: #333;
 }
 
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
-  background-color: #343a40;
+  background-color: #007bff;
   color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: background-color 0.3s ease;
 }
 
 header .logo {
@@ -33,6 +39,7 @@ header .my-memories-link {
   display: flex;
   align-items: center;
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 header .my-memories-link i {
@@ -52,12 +59,18 @@ main {
   background-color: #ffffff;
   border-radius: 8px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+#add-memory:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 #add-memory h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
+  color: #333;
 }
 
 #memory-form {
@@ -78,16 +91,24 @@ main {
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+#memory-form select:focus,
+#memory-form input:focus,
+#memory-form textarea:focus {
+  border-color: #007bff;
 }
 
 #memory-form button {
   padding: 10px 15px;
   font-size: 1.2rem;
-  background-color: #343a40;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 #memory-form button:hover {
@@ -102,6 +123,7 @@ main {
 #best-memories h2 {
   font-size: 1.8rem;
   margin-bottom: 15px;
+  color: #333;
 }
 
 .memory-card {
@@ -109,14 +131,20 @@ main {
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
+  transition: box-shadow 0.3s ease;
+}
+
+.memory-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
 }
 
 .memory-card h3 {
   font-size: 1.6rem;
   margin-bottom: 10px;
+  color: #007bff;
 }
 
 .memory-card .category {
@@ -137,11 +165,12 @@ main {
 .memory-card .view-more {
   padding: 8px 12px;
   font-size: 1rem;
-  background-color: #343a40;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .memory-card .view-more:hover {
@@ -155,12 +184,17 @@ main {
 
 /* Footer Styles */
 footer {
-  background-color: #343a40;
+  background-color: #007bff;
   color: white;
   padding: 20px 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+footer:hover {
+  background-color: #0056b3;
 }
 
 footer .footer-links {
@@ -171,6 +205,7 @@ footer .footer-links a {
   color: white;
   text-decoration: none;
   margin: 0 15px;
+  transition: color 0.3s ease;
 }
 
 footer .footer-links a:hover {
@@ -184,6 +219,11 @@ footer .social-media a {
 footer .social-media img {
   width: 25px;
   height: 25px;
+  transition: transform 0.3s ease;
+}
+
+footer .social-media img:hover {
+  transform: scale(1.2);
 }
 
 footer .copyright {
@@ -204,5 +244,18 @@ footer .copyright {
 
   .my-memories-link {
     margin-top: 10px;
+  }
+
+  #add-memory,
+  .memory-card {
+    padding: 15px;
+  }
+
+  .memory-card h3 {
+    font-size: 1.4rem;
+  }
+
+  footer {
+    padding: 15px 20px;
   }
 }
