@@ -13,12 +13,9 @@ body {
 
 /* Header */
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: #007bff;
   color: white;
-  padding: 8px 20px; /* Reduced padding for a more compact header */
+  padding: 10px 20px;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -26,36 +23,20 @@ header {
   box-sizing: border-box;
 }
 
-header .logo {
-  font-size: 1.2em; /* Slightly reduced logo font size for better balance */
-}
-
-header .search-container {
+/* Top section of header: Logo and Back button */
+.header-top {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
-  width: 50%; /* Adjusted for better alignment */
+  margin-bottom: 10px; /* Add spacing between top and bottom sections */
 }
 
-header .search-container input {
-  width: 100%;
-  padding: 10px 20px;
-  font-size: 1em;
-  border-radius: 20px;
-  border: 1px solid #ddd;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-  outline: none;
-  transition: all 0.3s ease;
+.header-top .logo {
+  font-size: 1.2em;
 }
 
-header .search-container input:focus {
-  width: 100%;
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-header .search-container button {
-  padding: 10px;
+.header-top .back-button {
+  padding: 8px 16px;
   border: none;
   border-radius: 20px;
   background-color: #0056b3;
@@ -63,50 +44,34 @@ header .search-container button {
   cursor: pointer;
 }
 
-header .search-container button:hover {
+.header-top .back-button:hover {
   background-color: #004085;
 }
 
-/* Sorting and Filters */
-.sorting-filters {
+/* Bottom section of header: Search and Sort */
+.header-bottom {
   display: flex;
-  gap: 10px;
+  justify-content: space-between;
   align-items: center;
-  width: 40%;
-  justify-content: flex-end;
+  gap: 10px; /* Spacing between search bar and dropdown */
 }
 
-/* Search Sort Container */
-.search-sort-container {
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-}
-
-.sorting-filters select,
-.sorting-filters button {
-  padding: 10px;
-  font-size: 1em;
+.header-bottom input,
+.header-bottom select {
+  padding: 10px 15px;
   border-radius: 20px;
   border: 1px solid #ddd;
+  font-size: 1em;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
   outline: none;
+  flex: 1; /* Allow elements to grow and align properly */
   transition: all 0.3s ease;
 }
 
-.sorting-filters select:focus,
-.sorting-filters button:focus {
+.header-bottom input:focus,
+.header-bottom select:focus {
   border-color: #0056b3;
-}
-
-.sorting-filters button {
-  background-color: #0056b3;
-  color: white;
-  cursor: pointer;
-}
-
-.sorting-filters button:hover {
-  background-color: #004085;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 /* Memory List Container */
@@ -118,14 +83,14 @@ header .search-container button:hover {
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 10px;
-  margin: 10px 0; /* Reduced margin for compact display */
-  padding: 15px; /* Reduced padding for compact memory card */
+  margin: 10px 0;
+  padding: 15px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
   max-width: 100%;
   word-wrap: break-word;
-  max-height: 180px; /* Reduced max-height for a smaller card */
-  overflow: hidden; /* Hide overflowed content */
+  max-height: 180px;
+  overflow: hidden;
 }
 
 .memory-card:hover {
@@ -204,7 +169,6 @@ header .search-container button:hover {
   background-color: #d9534f;
 }
 
-/* Memory Card Expand Animation */
 .memory-card .view-more {
   color: #007bff;
   font-size: 0.9em;
@@ -350,16 +314,9 @@ footer .social-media img {
 
 /* Media Queries for Responsive Design */
 @media (max-width: 768px) {
-  header .search-container {
-    width: 70%;
-  }
-
-  .sorting-filters {
-    width: 60%;
-  }
-
-  #memory-list-container {
-    padding: 10px;
+  .header-bottom {
+    flex-direction: column;
+    gap: 10px;
   }
 
   .memory-card {
@@ -367,16 +324,8 @@ footer .social-media img {
     max-height: 150px;
   }
 
-  .memory-card h3.memory-topic {
-    font-size: 1em;
-  }
-
   footer .footer-links {
     flex-direction: column;
-  }
-
-  footer .social-media img {
-    width: 20px;
   }
 
   .fab {
@@ -386,26 +335,13 @@ footer .social-media img {
 }
 
 @media (max-width: 480px) {
-  header .search-container {
-    width: 80%;
-  }
-
-  .sorting-filters {
-    width: 100%;
-    justify-content: space-between;
+  .header-bottom {
+    flex-direction: column;
   }
 
   .memory-card {
     padding: 8px;
     max-height: 120px;
-  }
-
-  .memory-card h3.memory-topic {
-    font-size: 0.9em;
-  }
-
-  footer .footer-links {
-    flex-direction: column;
   }
 
   footer .social-media img {
