@@ -16,6 +16,13 @@
     </div>
     <div class="header-bottom">
       <input type="text" id="search-memories" placeholder="Search memories..." oninput="filterMemories()" />
+      <select id="filter-tags">
+        <option value="">Select Tag</option>
+        <option value="Personal">Personal</option>
+        <option value="Family">Family</option>
+        <option value="Achievement">Achievement</option>
+        <option value="Relationship">Relationship</option>
+      </select>
       <select id="sort-memories" onchange="sortMemories()">
         <option value="default">Sort by</option>
         <option value="date">Date</option>
@@ -27,9 +34,14 @@
 
   <!-- Memory List Container -->
   <div id="memory-list-container">
+    <!-- Skeleton loader for loading state -->
+    <div class="skeleton-loader"></div>
     <!-- Memory Cards Will Be Dynamically Added Here -->
   </div>
+  
   <div id="no-memories-msg" class="hidden">No memories found.</div>
+
+  <!-- Loading Spinner (Initially Hidden) -->
   <div id="loading-spinner" class="hidden">Loading...</div>
 
   <!-- Modal for Add/Edit Memory -->
