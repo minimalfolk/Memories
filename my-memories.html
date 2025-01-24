@@ -11,8 +11,9 @@
 
   <!-- Header -->
   <header>
-    <div class="logo">Memory Jar
-     <a href="index.html" class="back-button">Back</a>
+    <div class="header-content">
+      <div class="logo">Memory Jar</div>
+      <button class="back-button" onclick="window.location.href='index.html'">Back</button>
     </div>
     <div class="search-container">
       <input type="text" id="search-memories" placeholder="Search memories..." oninput="filterMemories()"/>
@@ -45,13 +46,13 @@
   </footer>
 
   <!-- Add the Script.js for interactivity and functionality -->
-  <script src="script.js"></script>
-
-  <!-- Add a custom script to handle dynamic memory display -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const memoryListContainer = document.getElementById('memory-list-container');
-      let memories = JSON.parse(localStorage.getItem('memories')) || [];
+      let memories = JSON.parse(localStorage.getItem('memories')) || [
+        { id: "1", category: "Personal", date: "2025-01-20", topic: "Graduation Day", details: "The day I graduated college!", favorite: false },
+        { id: "2", category: "Family", date: "2025-01-21", topic: "Family Trip", details: "Our amazing trip to the mountains!", favorite: true }
+      ];
 
       // Display memories function
       function displayMemories(filteredMemories = memories) {
@@ -71,9 +72,15 @@
               <h3 class="memory-topic">${memory.topic}</h3>
               <p class="memory-text">${memory.details}</p>
               <div class="memory-actions">
-                <button class="edit-button" onclick="editMemory('${memory.id}')">Edit</button>
-                <button class="delete-button" onclick="deleteMemory('${memory.id}')">Delete</button>
-                <button class="favorite-button" onclick="toggleFavorite('${memory.id}')">${memory.favorite ? 'Unfavorite' : 'Favorite'}</button>
+                <button class="edit-button" onclick="editMemory('${memory.id}')">
+                  ✏️
+                </button>
+                <button class="delete-button" onclick="deleteMemory('${memory.id}')">
+                  ❌
+                </button>
+                <button class="favorite-button" onclick="toggleFavorite('${memory.id}')">
+                  ${memory.favorite ? '⭐' : '☆'}
+                </button>
               </div>
             `;
             memoryListContainer.appendChild(memoryCard);
