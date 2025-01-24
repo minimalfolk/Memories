@@ -21,8 +21,16 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  width: 100%;
+  width: 100%; /* Ensure header takes full width */
   box-sizing: border-box; /* Prevents overflow */
+  margin: 0; /* Remove any unintended margins */
+}
+
+header .back-button {
+  font-size: 1.2em;
+  color: white;
+  text-decoration: none;
+  margin-right: 10px;
 }
 
 header .logo {
@@ -142,6 +150,7 @@ footer {
   position: relative;
   bottom: 0;
   width: 100%;
+  box-sizing: border-box; /* Ensure footer takes full width */
 }
 
 footer a {
@@ -166,6 +175,10 @@ footer a:hover {
     flex-direction: column;
     align-items: flex-start;
     padding: 10px;
+  }
+
+  header .back-button {
+    margin-bottom: 10px;
   }
 
   header .logo {
