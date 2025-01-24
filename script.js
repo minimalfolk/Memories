@@ -3,97 +3,16 @@ let memories = JSON.parse(localStorage.getItem("memories")) || [];
 
 // DOM elements
 const memoryForm = document.getElementById("memory-form");
-const memoryList = document.getElementById("memory-list");
+const memoryListContainer = document.getElementById("memory-list-container");
+const bestMemoryList = document.getElementById("best-memory-list");
+const searchBar = document.getElementById("search-bar");
 
-// Handle form submission
-memoryForm.addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const category = document.getElementById("memory-category").value;
-  const topic = document.getElementById("memory-topic").value;
-  const details = document.getElementById("memory-details").value;
-
-  // Create new memory object
-  const newMemory = {
-    category,
-    topic,
-    details,
-    date: new Date().toLocaleString(),
-    color: getCategoryColor(category),
-  };
-
-  // Add new memory to the list
-  memories.push(newMemory);
-
-  // Save the updated memories to localStorage
+// Function to save memories to localStorage
+function saveMemories() {
   localStorage.setItem("memories", JSON.stringify(memories));
-
-  // Clear the form
-  memoryForm.reset();
-
-  // Refresh memory list
-  displayMemories();
-});
-
-// Display bestmemories function
-document.addEventListener('DOMContentLoaded', function() {
-  const bestMemoryList = document.getElementById('best-memory-list'); // Ensure this id matches the HTML
-  let memories = JSON.parse(localStorage.getItem('memories')) || [];
-
-  function displayBestMemories() {
-    bestMemoryList.innerHTML = ''; // Clear best memory list
-    const bestMemories = memories.filter(memory => memory.favorite);
-
-    if (bestMemories.length === 0) {
-      bestMemoryList.innerHTML = '<p>No favorite memories found.</p>';
-    } else {
-      bestMemories.forEach(memory => {
-        const card = document.createElement('div');
-        card.classList.add('memory-card');
-        card.style.borderLeft = `5px solid ${memory.color}`;
-        
-        const memoryDetails = `
-          <h3>${memory.topic}</h3>
-          <p class="category">${memory.category}</p>
-          <div class="memory-details">
-            <p class="memory-text">${memory.details}</p>
-            <button class="view-more">View More</button>
-          </div>
-          <small>${memory.date}</small>
-        `;
-        card.innerHTML = memoryDetails;
-        bestMemoryList.appendChild(card);
-      });
-    }
-  }
-
-  displayBestMemories();
-});
-    // Handle "View More" button click
-    const viewMoreButton = card.querySelector('.view-more');
-    const memoryText = card.querySelector('.memory-text');
-
-    // Limit to 4 lines of text (with scroll option)
-    const maxLines = 4;
-    const lineHeight = parseInt(window.getComputedStyle(memoryText).lineHeight);
-    const maxHeight = maxLines * lineHeight;
-    
-    // Set text to maxHeight, allowing scroll if it's too long
-    if (memoryText.scrollHeight > maxHeight) {
-      memoryText.style.maxHeight = `${maxHeight}px`;
-      memoryText.style.overflow = "hidden"; // Hide extra text
-      viewMoreButton.style.display = "inline-block"; // Show "View More" button
-    }
-
-    // Toggle "View More" / "View Less"
-    viewMoreButton.addEventListener('click', () => {
-      memoryText.classList.toggle('expanded');
-      viewMoreButton.textContent = memoryText.classList.contains('expanded') ? 'View Less' : 'View More';
-    });
-  });
 }
 
-// Get category color for each memory
+// Function to get category color
 function getCategoryColor(category) {
   switch (category) {
     case "Personal":
@@ -109,7 +28,183 @@ function getCategoryColor(category) {
   }
 }
 
-// Display stored memories on page load
+// Function to display all memories
+function displayMemories(filteredMemories = memories) {
+  memoryListContainer.innerHTML = ""; // Clear existing memories
+
+  if (filteredMemories.length === 0) {
+    memoryListContainer.innerHTML = "<p>No memories found.</p>";
+    return;
+  }
+
+  filteredMemories.forEach((memory, index) => {
+    const memoryCard = document.createElement("div");
+    memoryCard.classList.add("memory-card");
+    memoryCard.style.borderLeft = `5px solid ${getCategoryColor(memory.category)}`;
+
+    memoryCard.innerHTML = `
+      <h3>${memory.topic}</h3>
+      <p class="category">${memory.category}</p>
+      <div class="memory-details">
+        <p class="memory-text">${memory.details}</p>
+        <button class="view-more">View More</button>
+      </div>
+      <small>${memory.date}</small>
+      <button class="favorite-button" onclick="toggleFavorite(${index})">
+        ${memory.favorite ? "Unfavorite" : "Favorite"}
+      </button>
+      <button class="edit-button" onclick="editMemory(${index})">Edit</button>
+      <button class="delete-button" onclick="deleteMemory(${index})">Delete</button>
+    `;
+
+    const viewMoreButton = memoryCard.querySelector(".view-more");
+    const memoryText = memoryCard.querySelector(".memory-text");
+
+    // Limit text to 4 lines
+    const maxLines = 4;
+    const lineHeight = parseInt(window.getComputedStyle(memoryText).lineHeight);
+    const maxHeight = maxLines * lineHeight;
+
+    if (memoryText.scrollHeight > maxHeight) {
+      memoryText.style.maxHeight = `${maxHeight}px`;
+      memoryText.style.overflow = "hidden";
+      viewMoreButton.style.display = "inline-block";
+    } else {
+      viewMoreButton.style.display = "none";
+    }
+
+    viewMoreButton.addEventListener("click", () => {
+      memoryText.classList.toggle("expanded");
+      viewMoreButton.textContent = memoryText.classList.contains("expanded") ? "View Less" : "View More";
+    });
+
+    memoryListContainer.appendChild(memoryCard);
+  });
+}
+
+// Function to display best memories (Favorites)
+function displayBestMemories() {
+  bestMemoryList.innerHTML = ""; // Clear best memories
+
+  const favoriteMemories = memories.filter((memory) => memory.favorite);
+
+  if (favoriteMemories.length === 0) {
+    bestMemoryList.innerHTML = "<p>No favorite memories found.</p>";
+    return;
+  }
+
+  favoriteMemories.forEach((memory) => {
+    const memoryItem = document.createElement("div");
+    memoryItem.classList.add("memory-item");
+    memoryItem.style.borderLeft = `5px solid ${getCategoryColor(memory.category)}`;
+
+    memoryItem.innerHTML = `
+      <h4>${memory.topic}</h4>
+      <p class="category">${memory.category}</p>
+      <p class="memory-text">${memory.details}</p>
+      <small>${memory.date}</small>
+    `;
+
+    bestMemoryList.appendChild(memoryItem);
+  });
+}
+
+// Add a new memory
+memoryForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const category = document.getElementById("memory-category").value;
+  const topic = document.getElementById("memory-topic").value;
+  const details = document.getElementById("memory-details").value;
+
+  const newMemory = {
+    category,
+    topic,
+    details,
+    date: new Date().toLocaleString(),
+    favorite: false,
+    color: getCategoryColor(category),
+  };
+
+  memories.push(newMemory);
+  saveMemories();
+  memoryForm.reset();
+  displayMemories();
+  displayBestMemories();
+});
+
+// Toggle favorite status
+function toggleFavorite(index) {
+  memories[index].favorite = !memories[index].favorite;
+  saveMemories();
+  displayMemories();
+  displayBestMemories();
+}
+
+// Edit a memory
+function editMemory(index) {
+  const newTopic = prompt("Enter new memory topic:", memories[index].topic);
+  const newCategory = prompt("Enter new category:", memories[index].category);
+  const newDetails = prompt("Enter new details:", memories[index].details);
+
+  if (newTopic && newCategory && newDetails) {
+    memories[index] = {
+      ...memories[index],
+      topic: newTopic,
+      category: newCategory,
+      details: newDetails,
+    };
+
+    saveMemories();
+    displayMemories();
+    displayBestMemories();
+  }
+}
+
+// Delete a memory
+function deleteMemory(index) {
+  if (confirm("Are you sure you want to delete this memory?")) {
+    memories.splice(index, 1);
+    saveMemories();
+    displayMemories();
+    displayBestMemories();
+  }
+}
+
+// Search function
+searchBar.addEventListener("input", function () {
+  const searchTerm = searchBar.value.toLowerCase();
+  const filteredMemories = memories.filter((memory) =>
+    memory.topic.toLowerCase().includes(searchTerm) ||
+    memory.details.toLowerCase().includes(searchTerm)
+  );
+  displayMemories(filteredMemories);
+});
+
+// Display stored memories and best memories on page load
 document.addEventListener("DOMContentLoaded", function () {
   displayMemories();
+  displayBestMemories();
 });
+
+// Voice Search functionality
+if ('webkitSpeechRecognition' in window) {
+  const recognition = new webkitSpeechRecognition();
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = 'en-US';
+
+  recognition.onresult = function (event) {
+    const searchTerm = event.results[0][0].transcript.toLowerCase();
+    searchBar.value = searchTerm;
+    const filteredMemories = memories.filter((memory) =>
+      memory.topic.toLowerCase().includes(searchTerm) ||
+      memory.details.toLowerCase().includes(searchTerm)
+    );
+    displayMemories(filteredMemories);
+  };
+
+  document.getElementById("voice-search-btn").addEventListener("click", function () {
+    recognition.start();
+  });
+}
