@@ -4,15 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Memory Jar</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="sticky-header">
-    <div class="logo">Memory Jar</div>
-    <button onclick="openAddMemoryModal()">+ Add Memory</button>
-    <a href="my-memories.html" class="view-all-link">View All Memories</a>
+  <!-- Header -->
+  <header>
+    <div class="header-container">
+      <a href="index.html" style="text-decoration: none; color: inherit;">
+        <div class="logo">
+          <span class="logo-text">Memory Jar</span>
+        </div>
+      </a>
+      <div class="header-actions">
+        <a href="my-memories.html" class="my-memories-link">My Memories</a>
+      </div>
+    </div>
   </header>
 
+  <!-- Main Body -->
   <main>
     <section id="best-memories">
       <h2>Best Memories</h2>
@@ -21,42 +31,9 @@
     </section>
   </main>
 
-  <!-- Add/Edit Memory Modal -->
-  <div id="memory-modal" class="modal hidden">
-    <div class="modal-content">
-      <span class="close-button" onclick="closeModal()">×</span>
-      <h2 id="modal-title">Add/Edit Memory</h2>
-      <form id="memory-form">
-        <label for="memory-category">Category</label>
-        <select id="memory-category" required>
-          <option value="Personal">Personal</option>
-          <option value="Family">Family</option>
-          <option value="Achievement">Achievement</option>
-          <option value="Relationship">Relationship</option>
-        </select>
-        <label for="memory-topic">Topic</label>
-        <input type="text" id="memory-topic" placeholder="Enter memory topic" required>
-        <label for="memory-details">Details</label>
-        <textarea id="memory-details" placeholder="Write about your memory..." required></textarea>
-         <label for="memory-tags">Tags (optional, comma separated)</label>
-        <input type="text" id="memory-tags" placeholder="e.g., joy, family, vacation">
-
-        <button type="button" onclick="saveMemory()">Save</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Confirmation Modal -->
-  <div id="confirmation-modal" class="modal hidden">
-    <div class="modal-content">
-      <p id="confirmation-message"></p>
-      <button id="confirm-action-button">Yes</button>
-      <button onclick="closeConfirmationModal()">No</button>
-    </div>
-  </div>
-
-  <footer 
-    <div class="sticky-footer">
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
       <a href="contact.html">Contact</a>
       <a href="about.html">About</a>
       <a href="privacy.html">Privacy</a>
